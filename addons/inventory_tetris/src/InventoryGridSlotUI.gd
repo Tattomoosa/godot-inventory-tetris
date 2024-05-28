@@ -10,9 +10,25 @@ extends GridContainer
 			_populate()
 
 @export var slot_scene : PackedScene
+@export var selected_slot := Vector2i.ZERO
+@export var slot_focused := false
+
+signal selected_slot_changed
+signal slot_clicked(Vector2i)
+
+var _slots := {}
+
+func _init():
+	# TODO this doesn't work...
+	add_theme_constant_override("theme_override_constants/h_separation", 0)
+	add_theme_constant_override("theme_override_constants/v_separation", 0)
 
 func _ready():
 	_populate()
+	focus_mode = Control.FOCUS_ALL
+	focus_entered.connect(_on_focused)
+	if !Engine.is_editor_hint():
+		grab_focus.call_deferred()
 
 func _populate() -> void:
 	for child in get_children():
@@ -20,8 +36,55 @@ func _populate() -> void:
 	if !slot_scene:
 		push_warning("no slot scene set")
 	columns = grid_size.x
-	for x in grid_size.x:
-		for y in grid_size.y:
+	for y in grid_size.y:
+		for x in grid_size.x:
 			var slot : Control = slot_scene.instantiate()
 			slot.custom_minimum_size = slot_size
+			_slots[Vector2i(x,y)] = slot
 			add_child(slot)
+			slot.name = "Slot_" + str(x) + "_" + str(y)
+	
+	if Engine.is_editor_hint():
+		return
+
+	# setup focus neighbors
+	for x in grid_size.x:
+		for y in grid_size.y:
+			var pos := Vector2i(x, y)
+			var slot := _get_slot(pos)
+			slot.focus_mode = Control.FOCUS_ALL
+			slot.focus_entered.connect(
+				func():
+					selected_slot = pos
+					slot_focused = true
+					selected_slot_changed.emit()
+			)
+			slot.focus_exited.connect(
+				func():
+					slot_focused = false
+					selected_slot_changed.emit()
+			)
+			slot.clicked.connect(
+				func():
+					slot_clicked.emit(pos)
+			)
+			if x > 0:
+				var left_neighbor = _get_slot(Vector2i(x - 1, y))
+				slot.focus_neighbor_left = left_neighbor.get_path()
+			if y > 0:
+				var top_neighbor = _get_slot(Vector2i(x, y - 1))
+				slot.focus_neighbor_top = top_neighbor.get_path()
+			if x < grid_size.x - 1:
+				var right_neighbor = _get_slot(Vector2i(x + 1, y))
+				slot.focus_neighbor_right = right_neighbor.get_path()
+			if y < grid_size.y - 1:
+				var bottom_neighbor = _get_slot(Vector2i(x, y + 1))
+				slot.focus_neighbor_bottom = bottom_neighbor.get_path()
+
+func _get_slot(pos: Vector2i) -> Control:
+	return _slots[pos]
+
+func _on_focused():
+	var slot := _get_slot(selected_slot)
+	print("focus on ", slot)
+	slot.grab_focus()

@@ -29,6 +29,7 @@ extends Control
 var shape_cell := ColorRect.new()
 
 func _ready():
+	shape_cell.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_on_item_changed()
 
 func _on_item_changed():
@@ -49,6 +50,7 @@ func _clear():
 		child.queue_free()
 	shape_outline.shape = []
 
+# Draws the item shape using the item's slot_color
 func _update_shape():
 	var color := Color(
 		item_instance.slot_color.r,

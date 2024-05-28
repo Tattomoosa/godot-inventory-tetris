@@ -1,0 +1,131 @@
+[gd_scene load_steps=2 format=3 uid="uid://62e8rrsyi1as"]
+
+[ext_resource type="Script" path="res://addons/inventory_tetris/src/editor_properties/vector2i_dpad_property/Vector2iDpadControl.gd" id="1_j7exi"]
+
+[node name="Vector2iDpadProperty" type="HBoxContainer" node_paths=PackedStringArray("up_button", "right_button", "down_button", "left_button", "label")]
+custom_minimum_size = Vector2(2.08165e-12, 150)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_j7exi")
+up_button = NodePath("Control/Control/UpButton")
+right_button = NodePath("Control/Control/RightButton")
+down_button = NodePath("Control/Control/DownButton")
+left_button = NodePath("Control/Control/LeftButton")
+label = NodePath("Label")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "(10,10)"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Control" type="Control" parent="."]
+custom_minimum_size = Vector2(180, 180)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Control" type="Control" parent="Control"]
+custom_minimum_size = Vector2(180, 180)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -90.0
+offset_top = -90.0
+offset_right = 90.0
+offset_bottom = 90.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="UpButton" type="Button" parent="Control/Control"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -25.0
+offset_top = -75.0
+offset_right = 25.0
+offset_bottom = -25.0
+grow_horizontal = 2
+grow_vertical = 2
+icon_alignment = 1
+
+[node name="Polygon2D" type="Polygon2D" parent="Control/Control/UpButton"]
+position = Vector2(9, 9)
+polygon = PackedVector2Array(16, 5, 25, 13, 23, 16, 18, 12, 18, 23, 14, 23, 14, 12, 9, 16, 7, 13)
+
+[node name="RightButton" type="Button" parent="Control/Control"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 25.0
+offset_top = -25.0
+offset_right = 75.0
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 1.57117
+pivot_offset = Vector2(25, 25)
+icon_alignment = 1
+
+[node name="Polygon2D" type="Polygon2D" parent="Control/Control/RightButton"]
+position = Vector2(9, 9)
+polygon = PackedVector2Array(16, 5, 25, 13, 23, 16, 18, 12, 18, 23, 14, 23, 14, 12, 9, 16, 7, 13)
+
+[node name="DownButton" type="Button" parent="Control/Control"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -25.0
+offset_top = 25.0
+offset_right = 25.0
+offset_bottom = 75.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 3.14159
+pivot_offset = Vector2(25, 25)
+icon_alignment = 1
+
+[node name="Polygon2D" type="Polygon2D" parent="Control/Control/DownButton"]
+position = Vector2(9, 9)
+polygon = PackedVector2Array(16, 5, 25, 13, 23, 16, 18, 12, 18, 23, 14, 23, 14, 12, 9, 16, 7, 13)
+
+[node name="LeftButton" type="Button" parent="Control/Control"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -75.0
+offset_top = -25.0
+offset_right = -25.0
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 4.71239
+pivot_offset = Vector2(25, 25)
+icon_alignment = 1
+
+[node name="Polygon2D" type="Polygon2D" parent="Control/Control/LeftButton"]
+position = Vector2(9, 9)
+polygon = PackedVector2Array(16, 5, 25, 13, 23, 16, 18, 12, 18, 23, 14, 23, 14, 12, 9, 16, 7, 13)

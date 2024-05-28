@@ -36,12 +36,12 @@ var shape: Array[Vector2i] = []:
 		if !item:
 			return []
 		return get_rotated_shape()
-@export var item_name: String:
+var item_name: String:
 	get:
 		if !item:
 			return "NULL"
 		return item.item_name
-@export var slot_color: Color:
+var slot_color: Color:
 	get:
 		if !item:
 			return Color.GRAY

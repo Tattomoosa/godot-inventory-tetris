@@ -7,7 +7,7 @@ extends Resource
 	set(value):
 		item_name = value
 		emit_changed()
-@export var description := "Some sort of thing...":
+@export_multiline var description := "Some sort of thing...":
 	set(value):
 		description = value
 		emit_changed()
@@ -25,3 +25,10 @@ extends Resource
 	set(value):
 		slot_color = value
 		emit_changed()
+
+var rect : Rect2i:
+	get:
+		var r := Rect2i(0,0,0,0)
+		for slot in shape:
+			r.expand(slot)
+		return r

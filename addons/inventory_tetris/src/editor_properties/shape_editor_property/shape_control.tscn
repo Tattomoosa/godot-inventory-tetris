@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://b45ytyqrxbsie"]
 
-[ext_resource type="Script" path="res://addons/inventory_tetris/src/shape_creator/ShapeCreator.gd" id="1_5ovkm"]
+[ext_resource type="Script" path="res://addons/inventory_tetris/src/editor_properties/shape_editor_property/ShapeControl.gd" id="1_5ovkm"]
 [ext_resource type="Texture2D" uid="uid://dq4jrmb3cno10" path="res://addons/inventory_tetris/src/inspector_plugins/icons/Add.svg" id="2_ckymr"]
 [ext_resource type="Texture2D" uid="uid://b8fm7ntqx7ric" path="res://addons/inventory_tetris/src/inspector_plugins/icons/Remove.svg" id="3_f8mau"]
 
