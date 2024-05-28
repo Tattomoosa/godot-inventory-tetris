@@ -1,0 +1,127 @@
+[gd_scene load_steps=8 format=3 uid="uid://b45ytyqrxbsie"]
+
+[ext_resource type="Script" path="res://addons/inventory_tetris/src/shape_creator/ShapeCreator.gd" id="1_5ovkm"]
+[ext_resource type="Texture2D" uid="uid://dq4jrmb3cno10" path="res://addons/inventory_tetris/src/inspector_plugins/icons/Add.svg" id="2_ckymr"]
+[ext_resource type="Texture2D" uid="uid://b8fm7ntqx7ric" path="res://addons/inventory_tetris/src/inspector_plugins/icons/Remove.svg" id="3_f8mau"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p7ks8"]
+bg_color = Color(0.154876, 0.154876, 0.154876, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jdbyp"]
+bg_color = Color(0.342207, 0.342207, 0.342207, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wcmax"]
+bg_color = Color(0.301961, 0.439216, 0.666667, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_76jji"]
+bg_color = Color(0.417578, 0.557808, 0.78879, 1)
+
+[node name="ShapeCreator" type="Control" node_paths=PackedStringArray("add_cell_button", "active_cell_button", "center", "reset_button")]
+custom_minimum_size = Vector2(2.08165e-12, 400)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_5ovkm")
+button_size = Vector2i(40, 40)
+spacing = 2
+add_cell_button = NodePath("AddCellButton")
+active_cell_button = NodePath("ActiveCellButton")
+center = NodePath("VBoxContainer/Control/Center")
+reset_button = NodePath("VBoxContainer/HBoxContainer/ResetButton")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="ResetButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Reset"
+
+[node name="Control" type="Control" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Center" type="Control" parent="VBoxContainer/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+
+[node name="AddCellButton" type="Button" parent="."]
+visible = false
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(10, 10)
+theme_override_colors/icon_normal_color = Color(0.331019, 0.331019, 0.331019, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_p7ks8")
+theme_override_styles/hover = SubResource("StyleBoxFlat_jdbyp")
+icon = ExtResource("2_ckymr")
+clip_text = true
+icon_alignment = 1
+
+[node name="ActiveCellButton" type="Button" parent="."]
+visible = false
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(10, 10)
+theme_override_colors/icon_normal_color = Color(0, 0, 0, 0)
+theme_override_colors/icon_hover_color = Color(1, 1, 1, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_wcmax")
+theme_override_styles/hover = SubResource("StyleBoxFlat_76jji")
+icon = ExtResource("3_f8mau")
+clip_text = true
+icon_alignment = 1
+
+[node name="ColorRect3" type="ColorRect" parent="ActiveCellButton"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -5.0
+offset_top = -1.0
+offset_right = 5.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.813258, 0.813258, 0.813258, 1)
