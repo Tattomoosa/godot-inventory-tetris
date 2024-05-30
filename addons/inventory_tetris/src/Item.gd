@@ -17,7 +17,7 @@ extends Resource
 	set(value):
 		shape = value
 		emit_changed()
-@export var texture : ImageTexture:
+@export var texture : Texture:
 	set(value):
 		texture = value
 		emit_changed()
@@ -28,7 +28,8 @@ extends Resource
 
 var rect : Rect2i:
 	get:
-		var r := Rect2i(0,0,0,0)
+		#var r := Rect2i(0,0,0,0)
+		var r := Rect2i(shape[0], Vector2i.ZERO)
 		for slot in shape:
-			r.expand(slot)
+			r = r.expand(slot)
 		return r

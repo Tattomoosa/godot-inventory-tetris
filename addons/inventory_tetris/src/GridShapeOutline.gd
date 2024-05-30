@@ -24,12 +24,6 @@ extends Control
 var _color: Color:
 	get: return Color(color.r, color.g, color.b, 1)
 
-# TODO find all edge points then draw a single line
-# func _get_outline_points() -> Array[Vector2i]:
-# 	var start := shape[0]
-# 	while shape.has(start + Vector2i.UP):
-# 		start += Vector2i.UP
-
 func dumb_draw():
 	var half_size = floor(width / 2.0)
 	var half_width := Vector2i(half_size, 0)

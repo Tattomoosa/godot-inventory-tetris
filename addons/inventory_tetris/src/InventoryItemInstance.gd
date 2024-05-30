@@ -2,8 +2,6 @@
 class_name InventoryItemInstance
 extends Resource
 
-# TODO rotation
-
 @export var item: Item:
 	set(value):
 		if item == value:
@@ -12,6 +10,7 @@ extends Resource
 			if item.changed.is_connected(_on_item_changed):
 				item.changed.disconnect(_on_item_changed)
 		item = value
+		resource_name = item.item_name
 		if item:
 			item.changed.connect(_on_item_changed)
 		emit_changed()
@@ -39,7 +38,7 @@ var shape: Array[Vector2i] = []:
 var item_name: String:
 	get:
 		if !item:
-			return "NULL"
+			return "."
 		return item.item_name
 var slot_color: Color:
 	get:
@@ -82,3 +81,17 @@ func get_rotated_slot_position(slot: Vector2i, rot: ROTATION = rotation) -> Vect
 		ROTATION.DEG_270: return Vector2i(slot.y, -slot.x)
 		# unreachable, just for type checker
 		_: return Vector2i.ZERO
+
+func get_rotation_degrees() -> float:
+	match rotation:
+		ROTATION.DEG_0: return 0
+		ROTATION.DEG_90: return 90
+		ROTATION.DEG_180: return 180
+		ROTATION.DEG_270: return 270
+		# unreachable, just for type checker
+		_: return 0
+
+static func from_item(item: Item) -> InventoryItemInstance:
+	var item_instance := InventoryItemInstance.new()
+	item_instance.item = item
+	return item_instance

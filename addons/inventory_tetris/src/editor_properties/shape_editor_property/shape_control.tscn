@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://b45ytyqrxbsie"]
+[gd_scene load_steps=9 format=3 uid="uid://b45ytyqrxbsie"]
 
 [ext_resource type="Script" path="res://addons/inventory_tetris/src/editor_properties/shape_editor_property/ShapeControl.gd" id="1_5ovkm"]
 [ext_resource type="Texture2D" uid="uid://dq4jrmb3cno10" path="res://addons/inventory_tetris/src/inspector_plugins/icons/Add.svg" id="2_ckymr"]
@@ -16,7 +16,10 @@ bg_color = Color(0.301961, 0.439216, 0.666667, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_76jji"]
 bg_color = Color(0.417578, 0.557808, 0.78879, 1)
 
-[node name="ShapeCreator" type="Control" node_paths=PackedStringArray("add_cell_button", "active_cell_button", "center", "reset_button")]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iy8ya"]
+bg_color = Color(0.493546, 0.493546, 0.493546, 1)
+
+[node name="ShapeCreator" type="Control" node_paths=PackedStringArray("add_cell_button", "active_cell_button", "root_cell_button", "center", "reset_button", "root_left_button", "root_down_button", "root_up_button", "root_right_button")]
 custom_minimum_size = Vector2(2.08165e-12, 400)
 layout_mode = 3
 anchors_preset = 15
@@ -27,10 +30,16 @@ grow_vertical = 2
 script = ExtResource("1_5ovkm")
 button_size = Vector2i(40, 40)
 spacing = 2
+shape = Array[Vector2i]([Vector2i(0, 0), Vector2i(1, 0)])
 add_cell_button = NodePath("AddCellButton")
 active_cell_button = NodePath("ActiveCellButton")
+root_cell_button = NodePath("RootPositionButton")
 center = NodePath("VBoxContainer/Control/Center")
 reset_button = NodePath("VBoxContainer/HBoxContainer/ResetButton")
+root_left_button = NodePath("VBoxContainer/HBoxContainer/MoveRootPanel/MarginContainer/HBoxContainer/Left")
+root_down_button = NodePath("VBoxContainer/HBoxContainer/MoveRootPanel/MarginContainer/HBoxContainer/Down")
+root_up_button = NodePath("VBoxContainer/HBoxContainer/MoveRootPanel/MarginContainer/HBoxContainer/Up")
+root_right_button = NodePath("VBoxContainer/HBoxContainer/MoveRootPanel/MarginContainer/HBoxContainer/Right")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -47,6 +56,47 @@ layout_mode = 2
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Reset"
+
+[node name="MoveRootPanel" type="PanelContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/MoveRootPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_right = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/MoveRootPanel/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/MoveRootPanel/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "(0,0)"
+
+[node name="Left" type="Button" parent="VBoxContainer/HBoxContainer/MoveRootPanel/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "←"
+
+[node name="Down" type="Button" parent="VBoxContainer/HBoxContainer/MoveRootPanel/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "↓
+"
+
+[node name="Up" type="Button" parent="VBoxContainer/HBoxContainer/MoveRootPanel/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "↑"
+
+[node name="Right" type="Button" parent="VBoxContainer/HBoxContainer/MoveRootPanel/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "→"
 
 [node name="Control" type="Control" parent="VBoxContainer"]
 layout_mode = 2
@@ -125,3 +175,28 @@ offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.813258, 0.813258, 0.813258, 1)
+
+[node name="RootPositionButton" type="Button" parent="."]
+visible = false
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(10, 10)
+theme_override_colors/icon_normal_color = Color(0, 0, 0, 0)
+theme_override_colors/icon_hover_color = Color(1, 1, 1, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_iy8ya")
+theme_override_styles/hover = SubResource("StyleBoxFlat_iy8ya")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_iy8ya")
+disabled = true
+clip_text = true
+icon_alignment = 1

@@ -12,8 +12,13 @@ extends Control
 
 @export var add_cell_button : Button
 @export var active_cell_button : Button
+@export var root_cell_button : Button
 @export var center : Control
 @export var reset_button : Button
+@export var root_left_button : Button
+@export var root_down_button : Button
+@export var root_up_button : Button
+@export var root_right_button : Button
 
 signal shape_changed
 
@@ -22,8 +27,20 @@ func _ready():
 	reset_button.pressed.connect(
 		func(): shape = [Vector2i.ZERO]
 	)
+	root_left_button.pressed.connect(func(): _move_root(Vector2i.LEFT))
+	root_down_button.pressed.connect(func(): _move_root(Vector2i.DOWN))
+	root_up_button.pressed.connect(func(): _move_root(Vector2i.UP))
+	root_right_button.pressed.connect(func(): _move_root(Vector2i.RIGHT))
 
-func _update_buttons():
+func _move_root(direction: Vector2i) -> void:
+	var new_shape := shape.duplicate()
+	direction = -direction
+	for i in range(0, new_shape.size()):
+		new_shape[i] += direction
+	shape = new_shape
+
+
+func _update_buttons() -> void:
 	var bounds := Rect2i(0,0,0,0)
 	for child in center.get_children():
 		child.queue_free()
@@ -31,16 +48,20 @@ func _update_buttons():
 	var btn_size := button_size
 	var space := Vector2i(spacing, spacing)
 	for slot in shape:
-		var btn := active_cell_button.duplicate()
+		var btn : Button
+		if slot == Vector2i.ZERO:
+			btn = root_cell_button.duplicate()
+		else:
+			btn = active_cell_button.duplicate()
+			btn.pressed.connect(
+				func():
+					shape.erase(slot)
+					shape_changed.emit()
+			)
 		btn.position = slot * (btn_size + space)
 		btn.custom_minimum_size = btn_size
 		center.add_child(btn)
 		btn.show()
-		btn.pressed.connect(
-			func():
-				shape.erase(slot)
-				shape_changed.emit()
-		)
 
 		bounds = bounds.expand(slot)
 
@@ -65,3 +86,8 @@ func _update_buttons():
 				)
 			bounds = bounds.expand(s)
 	# custom_minimum_size = bounds.size + Vector2i(2,2) * (btn_size + space) * 2
+	root_left_button.disabled = !shape.has(Vector2i.LEFT)
+	root_down_button.disabled = !shape.has(Vector2i.DOWN)
+	root_up_button.disabled = !shape.has(Vector2i.UP)
+	root_right_button.disabled = !shape.has(Vector2i.RIGHT)
+

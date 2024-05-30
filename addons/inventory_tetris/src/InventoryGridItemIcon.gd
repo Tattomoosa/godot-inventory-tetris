@@ -22,7 +22,7 @@ extends Control
 			_update_shape()
 
 @onready var label: Label = $Label
-@onready var icon: TextureRect = $TextureRect
+@onready var texture_rect: TextureRect = $TextureRect
 @onready var shape_preview: Control = $Shape
 @onready var shape_outline: GridShapeOutline = $GridShapeOutline
 
@@ -44,8 +44,8 @@ func _on_item_changed():
 func _clear():
 	if !is_node_ready():
 		return
-	label.text = "NULL"
-	icon.texture = null
+	label.text = ""
+	texture_rect.texture = null
 	for child in shape_preview.get_children():
 		child.queue_free()
 	shape_outline.shape = []
@@ -70,3 +70,16 @@ func _update_shape():
 	shape_outline.shape = item_instance.shape
 	shape_outline.color = item_instance.slot_color
 	shape_outline.width = outline_width
+	_update_texture()
+
+func _update_texture():
+	var item := item_instance.item
+	var item_rect := item.rect
+	item_rect.size += Vector2i.ONE
+	item_rect.size *= cell_size
+	item_rect.position *= cell_size
+	texture_rect.pivot_offset = cell_size / 2
+	texture_rect.texture = item.texture
+	texture_rect.size = item_rect.size
+	texture_rect.position = item_rect.position
+	texture_rect.rotation_degrees = item_instance.get_rotation_degrees()

@@ -1,6 +1,6 @@
 extends EditorInspectorPlugin
 
-const SHAPE_EDITOR_PROPERTY := preload("res://addons/inventory_tetris/src/shape_creator/ShapeEditorProperty.gd")
+const SHAPE_EDITOR_PROPERTY := preload("res://addons/inventory_tetris/src/editor_properties/shape_editor_property/ShapeProperty.gd")
 
 func _can_handle(object):
 	return object is Item

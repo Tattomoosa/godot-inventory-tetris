@@ -30,14 +30,12 @@ func _ready():
 	open()
 
 func open():
-	print("open")
 	handle_input = true
 	visible = true
 	_active_inventory_index = 0
 	active_inventory.set_active()
 
 func close():
-	print("close")
 	handle_input = false
 	visible = false
 
