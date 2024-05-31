@@ -21,6 +21,7 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_v22j1")
 script = ExtResource("1_qxx32")
 inventory = ExtResource("2_isek4")
 item_icon_scene = ExtResource("4_271j6")
+picked_item_icon_offset = Vector2i(8, 8)
 item_icons = NodePath("FloatingUI/ItemIcons")
 grid_slots = NodePath("InventoryGridSlotUI")
 picked_item_icon = NodePath("FloatingUI/SelectedGridSlotIndicator/PickedItemIcon")
@@ -54,28 +55,30 @@ offset_bottom = 240.0
 mouse_filter = 2
 
 [node name="SelectedItemOutliner" type="Control" parent="FloatingUI"]
-modulate = Color(1, 1, 1, 0.407843)
 self_modulate = Color(1, 1, 1, 0.996078)
 layout_mode = 2
 anchors_preset = 0
 mouse_filter = 2
 script = ExtResource("10_78neh")
-color = Color(1, 1, 1, 0.407843)
+width = 2
+color = Color(0.648078, 0.648078, 0.648078, 1)
 
 [node name="SelectedGridSlotIndicator" type="Line2D" parent="FloatingUI"]
 visible = false
 points = PackedVector2Array(30, 0, 30, 30, 0, 30, 0, 0)
 closed = true
 width = 4.0
-default_color = Color(1, 1, 1, 0.411765)
+default_color = Color(1, 1, 1, 0.388235)
 
 [node name="PickedItemIcon" parent="FloatingUI/SelectedGridSlotIndicator" instance=ExtResource("4_271j6")]
+z_index = 1
 offset_left = 5.0
 offset_top = 5.0
 offset_right = 5.0
 offset_bottom = 5.0
 item_instance = null
-outline_width = 4.0
+background_opacity = 0.4
+outline_show = true
 
 [node name="InspectorPopupMenu" type="PopupMenu" parent="FloatingUI"]
 size = Vector2i(124, 100)

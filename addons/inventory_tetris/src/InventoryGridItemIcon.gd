@@ -15,11 +15,27 @@ extends Control
 		_on_item_changed()
 
 @export var cell_size := Vector2i(20,20)
+
+## If the color has a lower opacity it will be used instead
+@export var background_opacity := 0.2
+
+@export_group("Outline", "outline_")
+@export var outline_show := false:
+	set(value):
+		outline_show = value
+		outline_changed.emit()
+@export var outline_use_item_color := true:
+	set(value):
+		outline_use_item_color = value
+		outline_changed.emit()
 @export var outline_width := 2.0:
 	set(value):
 		outline_width = value
-		if is_node_ready():
-			_update_shape()
+		outline_changed.emit()
+@export var outline_color := Color.WHITE:
+	set(value):
+		outline_color = value
+		outline_changed.emit()
 
 @onready var label: Label = $Label
 @onready var texture_rect: TextureRect = $TextureRect
@@ -28,8 +44,11 @@ extends Control
 
 var shape_cell := ColorRect.new()
 
+signal outline_changed
+
 func _ready():
 	shape_cell.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	outline_changed.connect(_update_outline)
 	_on_item_changed()
 
 func _on_item_changed():
@@ -52,11 +71,19 @@ func _clear():
 
 # Draws the item shape using the item's slot_color
 func _update_shape():
-	var color := Color(
-		item_instance.slot_color.r,
-		item_instance.slot_color.g,
-		item_instance.slot_color.b,
-		0.2)
+	_update_background()
+	_update_outline()
+	_update_texture()
+
+func _update_background():
+	var color := item_instance.slot_color
+	color.a = background_opacity if background_opacity < color.a else color.a
+
+	# var color := Color(
+	# 	item_instance.slot_color.r,
+	# 	item_instance.slot_color.g,
+	# 	item_instance.slot_color.b,
+	# 	opacity)
 	for child in shape_preview.get_children():
 		child.queue_free()
 	for pos in item_instance.shape:
@@ -67,10 +94,16 @@ func _update_shape():
 		cell.color = color
 		cell.size = cell_size
 
-	shape_outline.shape = item_instance.shape
-	shape_outline.color = item_instance.slot_color
+func _update_outline():
 	shape_outline.width = outline_width
-	_update_texture()
+	if !item_instance:
+		return
+	shape_outline.visible = outline_show
+	shape_outline.shape = item_instance.shape
+	if outline_use_item_color:
+		shape_outline.color = item_instance.slot_color
+	else:
+		shape_outline.color = outline_color
 
 func _update_texture():
 	var item := item_instance.item
