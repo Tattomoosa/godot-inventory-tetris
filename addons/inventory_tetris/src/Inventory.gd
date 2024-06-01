@@ -106,6 +106,9 @@ func has_item(item: Item):
 			return true
 	return false
 
+func has_item_instance(item_instance: InventoryItemInstance):
+	return item_instances.has(item_instance)
+
 func get_item_root_position_at(position: Vector2i) -> Vector2i:
 	var item_instance = get_item_instance_at(position)
 	return item_instance.position

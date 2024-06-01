@@ -56,6 +56,8 @@ func _ready():
 # 			get_viewport().set_input_as_handled()
 
 func _process(_delta: float):
+	if Engine.is_editor_hint():
+		return
 	if !visible:
 		return
 	if Input.is_action_just_pressed("ui_cancel"):
@@ -82,6 +84,8 @@ func close():
 	if !can_close:
 		print("CANT CLOSE")
 		return
+	if picked_item_instance:
+		picked_item_instance.cancel()
 	visible = false
 	closed.emit()
 
