@@ -6,6 +6,7 @@ extends Resource
 @export var item_name := "Item":
 	set(value):
 		item_name = value
+		resource_name = item_name
 		emit_changed()
 @export_multiline var description := "Some sort of thing...":
 	set(value):

@@ -17,4 +17,4 @@ func _parse_property(object, type, name, hint_type, hint_string, usage_flags, wi
 		add_custom_control(center_parent)
 		return true
 	if name == "item_instances":
-		return true
+		return false

@@ -28,6 +28,11 @@ func _ready():
 	_populate()
 	focus_mode = Control.FOCUS_ALL
 	focus_entered.connect(_on_focused)
+	mouse_exited.connect(
+		func():
+			print("MOSUE EXITED")
+			_slots[selected_slot].release_focus()
+	)
 
 func _populate() -> void:
 	for child in get_children():
