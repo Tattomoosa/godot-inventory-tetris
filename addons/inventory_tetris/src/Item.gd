@@ -36,7 +36,6 @@ extends Resource
 
 var rect : Rect2i:
 	get:
-		#var r := Rect2i(0,0,0,0)
 		var r := Rect2i(shape[0], Vector2i.ZERO)
 		for slot in shape:
 			r = r.expand(slot)

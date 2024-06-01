@@ -7,6 +7,7 @@ extends Control
 @export_group("Scene Internal")
 @export var inventories : Array[InventoryGridPanel] = []
 @export var item_info_panel : ItemInfoPanel
+@export var follow_mouse : FollowMouse
 
 signal opened
 signal closed
@@ -17,7 +18,7 @@ var selected_item_instance : InventoryItemInstance:
 		selected_item_instance = value
 		_update_item_panel()
 
-var picked_item_instance : InventoryGridPanel.PickedItemInstance:
+var picked_item_instance : InventoryGridPickedItem:
 	set(value):
 		picked_item_instance = value
 		for inventory in inventories:
@@ -38,23 +39,6 @@ func _ready():
 				selected_item_instance = selected_item_instance_
 		)
 
-# func _unhandled_input(event):
-# 	if !visible:
-# 		return
-# 	print("inventory ui event\n", event)
-# 	if event is InputEventKey:
-# 		if event.is_action_pressed("ui_cancel"):
-# 			if picked_item_instance:
-# 				picked_item_instance.cancel()
-# 				picked_item_instance = null
-# 				get_viewport().set_input_as_handled()
-# 			else:
-# 				close()
-# 				get_viewport().set_input_as_handled()
-# 		if event.is_action_pressed("inventory"):
-# 			close()
-# 			get_viewport().set_input_as_handled()
-
 func _process(_delta: float):
 	if Engine.is_editor_hint():
 		return
@@ -71,6 +55,20 @@ func _process(_delta: float):
 	if Input.is_action_just_pressed("inventory"):
 		close()
 		get_viewport().set_input_as_handled()
+	
+	if picked_item_instance:
+		var no_slots_selected = get_selected_inventory() == null
+		if no_slots_selected and picked_item_instance.get_parent() != follow_mouse:
+			var mouse_offset := picked_item_instance.global_position - follow_mouse.position
+			picked_item_instance.over_inventory = null
+			picked_item_instance.reparent(follow_mouse, false)
+			picked_item_instance.position = mouse_offset
+
+func get_selected_inventory() -> InventoryGridPanel:
+	for inventory in inventories:
+		if inventory.has_selected_slot:
+			return inventory
+	return null
 
 func open():
 	visible = true

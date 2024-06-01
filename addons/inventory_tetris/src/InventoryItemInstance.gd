@@ -13,6 +13,7 @@ extends Resource
 		resource_name = item.item_name
 		if item:
 			item.changed.connect(_on_item_changed)
+		_load_item_data()
 		emit_changed()
 @export var position: Vector2i:
 	set(value):
@@ -22,6 +23,11 @@ extends Resource
 	set(value):
 		rotation = value
 		emit_changed()
+@export var data: Array[ItemData]:
+	set(value):
+		pass
+
+var _data: Array[ItemData] = []
 
 enum ROTATION {
 	DEG_0,
@@ -45,11 +51,15 @@ var slot_color: Color:
 		if !item:
 			return Color.GRAY
 		return item.slot_color
+var context_menu: Array[String]:
+	get:
+		return _get_context_menu()
 
 func local_position(pos: Vector2i):
 	return pos - position
 
 func _on_item_changed():
+	_load_item_data()
 	emit_changed()
 
 func get_rotated_shape(rot: ROTATION = rotation):
@@ -90,6 +100,21 @@ func get_rotation_degrees() -> float:
 		ROTATION.DEG_270: return 270
 		# unreachable, just for type checker
 		_: return 0
+
+func _get_context_menu() -> Array[String]:
+	var context_menu: Array[String] = []
+	for d in item.data:
+		context_menu.append_array(d.context_menu)
+	return context_menu
+
+func _load_item_data():
+	if !item:
+		_data = []
+	else:
+		# TODO this seems to be called much more than it needs to
+		# print("loading item data")
+		for d in item.data:
+			_data.push_back(d.duplicate())
 
 static func from_item(item: Item) -> InventoryItemInstance:
 	var item_instance := InventoryItemInstance.new()

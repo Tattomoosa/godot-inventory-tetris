@@ -28,7 +28,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_5ovkm")
-button_size = Vector2i(40, 40)
 spacing = 2
 shape = Array[Vector2i]([Vector2i(0, 0), Vector2i(1, 0)])
 add_cell_button = NodePath("AddCellButton")
@@ -54,7 +53,7 @@ layout_mode = 2
 
 [node name="ResetButton" type="Button" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 10
 text = "Reset"
 
 [node name="MoveRootPanel" type="PanelContainer" parent="VBoxContainer/HBoxContainer"]
@@ -70,32 +69,35 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/MoveRootPanel/MarginContainer/HBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 10
 text = "(0,0)"
 
 [node name="Left" type="Button" parent="VBoxContainer/HBoxContainer/MoveRootPanel/MarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(40, 0)
+custom_minimum_size = Vector2(24, 0)
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 10
+disabled = true
 text = "←"
 
 [node name="Down" type="Button" parent="VBoxContainer/HBoxContainer/MoveRootPanel/MarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(40, 0)
+custom_minimum_size = Vector2(24, 0)
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 10
+disabled = true
 text = "↓
 "
 
 [node name="Up" type="Button" parent="VBoxContainer/HBoxContainer/MoveRootPanel/MarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(40, 0)
+custom_minimum_size = Vector2(24, 0)
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 10
+disabled = true
 text = "↑"
 
 [node name="Right" type="Button" parent="VBoxContainer/HBoxContainer/MoveRootPanel/MarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(40, 0)
+custom_minimum_size = Vector2(24, 0)
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 10
 text = "→"
 
 [node name="Control" type="Control" parent="VBoxContainer"]

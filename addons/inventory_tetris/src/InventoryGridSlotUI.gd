@@ -11,7 +11,7 @@ extends GridContainer
 
 @export var slot_scene : PackedScene
 @export var selected_slot := Vector2i.ZERO
-@export var slot_focused := false
+@export var has_slot_focused := false
 
 signal selected_slot_changed
 signal slot_clicked(Vector2i)
@@ -26,13 +26,9 @@ func _init():
 
 func _ready():
 	_populate()
-	focus_mode = Control.FOCUS_ALL
+	# focus_mode = Control.FOCUS_NONE
+	# focus_mode = Control.FOCUS_ALL
 	focus_entered.connect(_on_focused)
-	mouse_exited.connect(
-		func():
-			print("MOSUE EXITED")
-			_slots[selected_slot].release_focus()
-	)
 
 func _populate() -> void:
 	for child in get_children():
@@ -57,12 +53,12 @@ func _populate() -> void:
 			slot.focus_entered.connect(
 				func():
 					selected_slot = pos
-					slot_focused = true
+					has_slot_focused = true
 					selected_slot_changed.emit()
 			)
 			slot.focus_exited.connect(
 				func():
-					slot_focused = false
+					has_slot_focused = false
 					selected_slot_changed.emit()
 			)
 			slot.clicked.connect(
@@ -88,6 +84,9 @@ func _populate() -> void:
 
 func get_slot(pos: Vector2i) -> Control:
 	return _slots[pos]
+
+func set_slot_focused(pos: Vector2i):
+	get_slot(pos).grab_focus()
 
 func _on_focused():
 	var slot := get_slot(selected_slot)

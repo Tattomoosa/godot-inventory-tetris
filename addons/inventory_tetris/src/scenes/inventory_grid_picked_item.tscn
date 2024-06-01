@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://i5kjpoa236pu"]
+
+[ext_resource type="Script" path="res://addons/inventory_tetris/src/InventoryGridPickedItem.gd" id="1_qpf4m"]
+[ext_resource type="PackedScene" uid="uid://4l38xkfeeagg" path="res://scenes/ui/inventory/inventory_grid_item_icon.tscn" id="2_qb8uj"]
+
+[node name="InventoryGridPickedItem" type="Control" node_paths=PackedStringArray("item_icon")]
+z_index = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_qpf4m")
+item_icon = NodePath("InventoryGridItemIcon")
+
+[node name="InventoryGridItemIcon" parent="." instance=ExtResource("2_qb8uj")]
+outline_show = true
