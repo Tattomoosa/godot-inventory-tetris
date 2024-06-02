@@ -93,6 +93,12 @@ func remove_item_instance(item_instance: InventoryItemInstance):
 	_update_slots()
 	items_changed.emit()
 
+func remove_item(item: Item):
+	for item_instance in item_instances:
+		if item_instance.item == item:
+			remove_item_instance(item_instance)
+			return
+
 func get_item_at(position: Vector2i) -> Item:
 	return get_item_instance_at(position).item
 

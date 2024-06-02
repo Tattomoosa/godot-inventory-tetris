@@ -5,6 +5,8 @@ class_name InventoryGridPanel
 signal selected_slot_changed
 signal selected_item_instance_changed(InventoryItemInstance)
 signal picked_item_instance_changed(PickedItemInstance)
+signal placed_picked_item(PickedItemInstance)
+signal canceled_picked_item
 
 @export var inventory: Inventory:
 	set(value):
@@ -39,6 +41,8 @@ var has_selected_slot : bool:
 var can_change_selected_slot := true
 var selected_item_instance : InventoryItemInstance = null:
 	set(value):
+		if lock_selected_item_instance:
+			return
 		selected_item_instance = value
 		_on_selected_item_changed()
 
@@ -56,6 +60,8 @@ var picked_item_instance : InventoryGridPickedItem = null:
 			if picked_item_instance.over_inventory == self.inventory:
 				selected_grid_slot_indicator.add_child(picked_item_instance)
 		_on_picked_item_changed()
+
+var lock_selected_item_instance := false
 
 #region Public Methods
 
@@ -109,14 +115,16 @@ func _placed_picked_item():
 		_cancel_picked_item()
 	picked_item_instance = null
 	picked_item_instance_changed.emit(picked_item_instance)
+	if added:
+		placed_picked_item.emit()
 
-# TODO support picked items in multiple "inventories"
 func _cancel_picked_item():
 	if picked_item_instance:
 		picked_item_instance.cancel()
 		# inventory.add_item_instance(picked_item_instance.from_item_instance)
 	picked_item_instance = null
 	picked_item_instance_changed.emit(picked_item_instance)
+	canceled_picked_item.emit()
 
 func _pick_selected_item():
 	if !selected_item_instance:
@@ -144,13 +152,20 @@ func _on_slot_right_clicked(pos: Vector2i):
 		return
 	var screen_position := grid_slots.get_slot(pos).get_screen_position()
 	if Engine.is_editor_hint():
-		inspector_item_popup_menu.position = screen_position
-		inspector_item_popup_menu.show()
+		_show_item_popup_menu(inspector_item_popup_menu, screen_position)
 	else:
 		item_popup_menu.item_instance = selected_item_instance
 		if item_popup_menu.item_count > 0:
-			item_popup_menu.position = screen_position
-			item_popup_menu.show()
+			_show_item_popup_menu(item_popup_menu, screen_position)
+
+func _show_item_popup_menu(menu: PopupMenu, screen_position: Vector2i):
+	lock_selected_item_instance = true
+	menu.position = screen_position
+	menu.show()
+	menu.set_focused_item(0)
+	await menu.popup_hide
+	lock_selected_item_instance = false
+
 
 #region callbacks
 
@@ -222,7 +237,6 @@ func _on_inventory_items_changed():
 		item_icons.add_child(icon)
 
 func _on_selected_item_changed():
-	# TODO this fires whenever slot changed...
 	if !selected_item_instance:
 		selected_item_outliner.shape = []
 	else:

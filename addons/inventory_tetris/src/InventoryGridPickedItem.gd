@@ -2,6 +2,8 @@
 class_name InventoryGridPickedItem
 extends Control
 
+signal rotated
+
 var item_instance: InventoryItemInstance
 ## offset from selected grid slot
 var offset: Vector2i
@@ -41,10 +43,12 @@ static func create(
 func rotate_clockwise():
 	offset = Vector2i(-offset.y, offset.x)
 	item_instance.rotate_clockwise()
+	rotated.emit()
 
 func rotate_counterclockwise():
 	offset = Vector2i(offset.y, -offset.x)
 	item_instance.rotate_counterclockwise()
+	rotated.emit()
 
 func cancel():
 	if from_inventory:

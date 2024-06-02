@@ -5,7 +5,7 @@
 [ext_resource type="Resource" uid="uid://ckareta4kn58y" path="res://assets/items/flashlight.tres" id="2_fr0d2"]
 [ext_resource type="PackedScene" uid="uid://d4ncq5f5uxwxh" path="res://scenes/ui/inventory_grid_slot.tscn" id="3_050d2"]
 [ext_resource type="Script" path="res://addons/inventory_tetris/src/InventoryItemInstance.gd" id="3_yupcr"]
-[ext_resource type="Resource" uid="uid://bvlvl3wbuolms" path="res://assets/items/Pistol.tres" id="4_12w8x"]
+[ext_resource type="Resource" uid="uid://bvlvl3wbuolms" path="res://assets/items/pistol.tres" id="4_12w8x"]
 [ext_resource type="PackedScene" uid="uid://4l38xkfeeagg" path="res://scenes/ui/inventory/inventory_grid_item_icon.tscn" id="4_271j6"]
 [ext_resource type="Script" path="res://addons/inventory_tetris/src/Inventory.gd" id="5_43q4d"]
 [ext_resource type="Resource" uid="uid://betwytd475aie" path="res://assets/items/pistol_ammo.tres" id="5_v2ajl"]
@@ -25,6 +25,7 @@ script = ExtResource("3_yupcr")
 item = ExtResource("2_fr0d2")
 position = Vector2i(0, 0)
 rotation = 0
+data = Array[Resource("res://addons/inventory_tetris/src/ItemData.gd")]([])
 
 [sub_resource type="Resource" id="Resource_mc4sy"]
 resource_name = "Flashlight"
@@ -32,13 +33,7 @@ script = ExtResource("3_yupcr")
 item = ExtResource("2_fr0d2")
 position = Vector2i(6, 0)
 rotation = 0
-
-[sub_resource type="Resource" id="Resource_u3dg2"]
-resource_name = "Pistol"
-script = ExtResource("3_yupcr")
-item = ExtResource("4_12w8x")
-position = Vector2i(3, 4)
-rotation = 0
+data = Array[Resource("res://addons/inventory_tetris/src/ItemData.gd")]([])
 
 [sub_resource type="Resource" id="Resource_hbnin"]
 resource_name = "Pistol Ammo"
@@ -46,31 +41,41 @@ script = ExtResource("3_yupcr")
 item = ExtResource("5_v2ajl")
 position = Vector2i(3, 0)
 rotation = 0
+data = Array[Resource("res://addons/inventory_tetris/src/ItemData.gd")]([])
 
-[sub_resource type="Resource" id="Resource_rdogv"]
+[sub_resource type="Resource" id="Resource_a8clx"]
 resource_name = "Pistol Ammo"
 script = ExtResource("3_yupcr")
 item = ExtResource("5_v2ajl")
-position = Vector2i(0, 1)
+position = Vector2i(0, 2)
 rotation = 0
+data = Array[Resource("res://addons/inventory_tetris/src/ItemData.gd")]([])
 
-[sub_resource type="Resource" id="Resource_sg6sd"]
+[sub_resource type="Resource" id="Resource_2g8t1"]
 resource_name = "Pistol Ammo"
 script = ExtResource("3_yupcr")
 item = ExtResource("5_v2ajl")
-position = Vector2i(2, 1)
+position = Vector2i(1, 3)
 rotation = 0
+data = Array[Resource("res://addons/inventory_tetris/src/ItemData.gd")]([])
+
+[sub_resource type="Resource" id="Resource_1dyny"]
+resource_name = "Pistol"
+script = ExtResource("3_yupcr")
+item = ExtResource("4_12w8x")
+position = Vector2i(6, 1)
+rotation = 0
+data = Array[Resource("res://addons/inventory_tetris/src/ItemData.gd")]([])
 
 [sub_resource type="Resource" id="Resource_mwwxi"]
 script = ExtResource("5_43q4d")
 _inventory_control = false
 grid_size = Vector2i(10, 10)
-item_instances = Array[ExtResource("3_yupcr")]([SubResource("Resource_dns8g"), SubResource("Resource_mc4sy"), SubResource("Resource_u3dg2"), SubResource("Resource_hbnin"), SubResource("Resource_rdogv"), SubResource("Resource_sg6sd")])
+item_instances = Array[ExtResource("3_yupcr")]([SubResource("Resource_dns8g"), SubResource("Resource_mc4sy"), SubResource("Resource_hbnin"), SubResource("Resource_a8clx"), SubResource("Resource_2g8t1"), SubResource("Resource_1dyny")])
 
 [node name="InventoryGrid" type="PanelContainer" node_paths=PackedStringArray("item_icons", "grid_slots", "selected_item_outliner", "selected_grid_slot_indicator", "inspector_item_popup_menu", "item_popup_menu")]
 offset_right = 304.0
 offset_bottom = 184.0
-focus_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_v22j1")
 script = ExtResource("1_4q08c")
@@ -87,10 +92,6 @@ picked_item_scene = ExtResource("7_aihe3")
 
 [node name="InventoryGridSlots" type="GridContainer" parent="."]
 layout_mode = 2
-focus_neighbor_left = NodePath("/root/@EditorNode@17149/@Panel@13/@VBoxContainer@14/@HSplitContainer@17/@HSplitContainer@25/@HSplitContainer@33/@VBoxContainer@34/@VSplitContainer@36/@VSplitContainer@62/@VBoxContainer@63/@PanelContainer@110/MainScreen/@CanvasItemEditor@9464/@VSplitContainer@9283/@HSplitContainer@9285/@HSplitContainer@9287/@Control@9288/@SubViewportContainer@9289/@SubViewport@9290/InventoryGridPanel/InventoryGridSlotUI/@Control@68322")
-focus_neighbor_top = NodePath("/root/@EditorNode@17149/@Panel@13/@VBoxContainer@14/@HSplitContainer@17/@HSplitContainer@25/@HSplitContainer@33/@VBoxContainer@34/@VSplitContainer@36/@VSplitContainer@62/@VBoxContainer@63/@PanelContainer@110/MainScreen/@CanvasItemEditor@9464/@VSplitContainer@9283/@HSplitContainer@9285/@HSplitContainer@9287/@Control@9288/@SubViewportContainer@9289/@SubViewport@9290/InventoryGridPanel/InventoryGridSlotUI/@Control@68319")
-focus_neighbor_right = NodePath("/root/@EditorNode@17149/@Panel@13/@VBoxContainer@14/@HSplitContainer@17/@HSplitContainer@25/@HSplitContainer@33/@VBoxContainer@34/@VSplitContainer@36/@VSplitContainer@62/@VBoxContainer@63/@PanelContainer@110/MainScreen/@CanvasItemEditor@9464/@VSplitContainer@9283/@HSplitContainer@9285/@HSplitContainer@9287/@Control@9288/@SubViewportContainer@9289/@SubViewport@9290/InventoryGridPanel/InventoryGridSlotUI/@Control@68323")
-focus_neighbor_bottom = NodePath("/root/@EditorNode@17149/@Panel@13/@VBoxContainer@14/@HSplitContainer@17/@HSplitContainer@25/@HSplitContainer@33/@VBoxContainer@34/@VSplitContainer@36/@VSplitContainer@62/@VBoxContainer@63/@PanelContainer@110/MainScreen/@CanvasItemEditor@9464/@VSplitContainer@9283/@HSplitContainer@9285/@HSplitContainer@9287/@Control@9288/@SubViewportContainer@9289/@SubViewport@9290/InventoryGridPanel/InventoryGridSlotUI/@Control@68323")
 focus_mode = 2
 mouse_filter = 0
 theme_override_constants/h_separation = 0
@@ -121,6 +122,7 @@ color = Color(0.648078, 0.648078, 0.648078, 1)
 
 [node name="SelectedGridSlotIndicator" type="Line2D" parent="FloatingUI"]
 visible = false
+z_as_relative = false
 points = PackedVector2Array(30, 0, 30, 30, 0, 30, 0, 0)
 closed = true
 width = 4.0
@@ -131,11 +133,11 @@ size = Vector2i(28, 8)
 script = ExtResource("11_pfvcs")
 
 [node name="InspectorPopupMenu" type="PopupMenu" parent="FloatingUI"]
-size = Vector2i(124, 100)
+size = Vector2i(220, 100)
 item_count = 4
-item_0/text = "Rotate Right"
+item_0/text = "Rotate Clockwise"
 item_0/id = 0
-item_1/text = "Rotate Left"
+item_1/text = "Rotate Counterclockwise"
 item_1/id = 1
 item_2/text = ""
 item_2/id = 3
