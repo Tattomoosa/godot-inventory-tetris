@@ -23,11 +23,10 @@ func _init():
 	# TODO this doesn't work...
 	add_theme_constant_override("theme_override_constants/h_separation", 0)
 	add_theme_constant_override("theme_override_constants/v_separation", 0)
+	tree_entered.connect(_populate)
 
 func _ready():
 	_populate()
-	# focus_mode = Control.FOCUS_NONE
-	# focus_mode = Control.FOCUS_ALL
 	focus_entered.connect(_on_focused)
 
 func _populate() -> void:
