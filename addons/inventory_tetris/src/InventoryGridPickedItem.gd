@@ -54,7 +54,6 @@ func cancel():
 	if from_inventory:
 		from_inventory.add_item_instance(from_item_instance)
 
-# TODO handle picked item in its own thing, expose to InventoryUI to share between inventories
 func _process(_delta: float) -> void:
 	if Engine.is_editor_hint():
 		return

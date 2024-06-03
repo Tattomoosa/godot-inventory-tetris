@@ -13,14 +13,14 @@ extends Control
 @export var picked_item_audio_player : AudioStreamPlayer
 @export var placed_item_audio_player : AudioStreamPlayer
 @export var rotated_item_audio_player : AudioStreamPlayer
-@export var canceled_item_audio_player : AudioStreamPlayer
+@export var errored_audio_player : AudioStreamPlayer
 @export var opened_audio_player : AudioStreamPlayer
 @export var closed_audio_player : AudioStreamPlayer
 
 signal opened
 signal closed
 # TODO is anything listening to this?
-signal picked_item_changed
+# signal picked_item_changed
 
 var selected_item_instance : InventoryItemInstance:
 	set(value):
@@ -39,7 +39,7 @@ var picked_item_instance : InventoryGridPickedItem:
 			inventory.picked_item_instance = picked_item_instance
 		_update_item_panel()
 		_on_picked_item()
-		picked_item_changed.emit()
+		# picked_item_changed.emit()
 
 var can_close := true
 var silence_grid_sounds := true
@@ -58,6 +58,7 @@ func _ready():
 			func():
 				_on_grid_selected_slot_changed(inventory.grid_slots)
 		)
+		inventory.blank_context_menu_requested.connect(_error)
 		inventory.placed_picked_item.connect(_on_placed_item)
 		inventory.canceled_picked_item.connect(_on_canceled_item)
 		await get_tree().process_frame
@@ -74,6 +75,9 @@ func _ready():
 						#TODO this sets up inter-inventory traversal, would have to do something way smarter to support more configurations
 						dest_grid.selected_slot.y = src_grid.selected_slot.y
 			)
+
+func _error():
+	errored_audio_player.play()
 
 func _on_picked_item_rotated():
 	if !silence_grid_sounds:
@@ -96,7 +100,7 @@ func _on_picked_item():
 
 func _on_canceled_item():
 	if !silence_grid_sounds:
-		canceled_item_audio_player.play()
+		errored_audio_player.play()
 
 func _process(_delta: float):
 	if Engine.is_editor_hint():

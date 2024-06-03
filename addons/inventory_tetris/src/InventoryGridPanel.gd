@@ -7,6 +7,7 @@ signal selected_item_instance_changed(InventoryItemInstance)
 signal picked_item_instance_changed(PickedItemInstance)
 signal placed_picked_item(PickedItemInstance)
 signal canceled_picked_item
+signal blank_context_menu_requested
 
 @export var inventory: Inventory:
 	set(value):
@@ -157,6 +158,8 @@ func _on_slot_right_clicked(pos: Vector2i):
 		item_popup_menu.item_instance = selected_item_instance
 		if item_popup_menu.item_count > 0:
 			_show_item_popup_menu(item_popup_menu, screen_position)
+		else:
+			blank_context_menu_requested.emit()
 
 func _show_item_popup_menu(menu: PopupMenu, screen_position: Vector2i):
 	lock_selected_item_instance = true
