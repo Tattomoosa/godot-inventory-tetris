@@ -7,6 +7,5 @@ extends PopupMenu
 	
 func _on_item_changed():
 	clear()
-	print(item_instance.context_menu)
 	for menu_option in item_instance.context_menu:
 		add_item(menu_option)

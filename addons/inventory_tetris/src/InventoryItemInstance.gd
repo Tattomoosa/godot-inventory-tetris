@@ -112,7 +112,6 @@ func _load_item_data():
 		_data = []
 	else:
 		# TODO this seems to be called much more than it needs to
-		# print("loading item data")
 		for d in item.data:
 			_data.push_back(d.duplicate())
 
