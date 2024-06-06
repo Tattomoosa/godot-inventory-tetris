@@ -61,7 +61,7 @@ func _ready():
 		inventory.blank_context_menu_requested.connect(_error)
 		inventory.placed_picked_item.connect(_on_placed_item)
 		inventory.canceled_picked_item.connect(_on_canceled_item)
-		await get_tree().process_frame
+		# await get_tree().process_frame
 
 		for other in inventories:
 			if inventory == other:
