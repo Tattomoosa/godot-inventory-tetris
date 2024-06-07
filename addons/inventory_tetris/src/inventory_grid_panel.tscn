@@ -1,14 +1,13 @@
-[gd_scene load_steps=21 format=3 uid="uid://dfwvl1wt36hkv"]
+[gd_scene load_steps=16 format=3 uid="uid://dfwvl1wt36hkv"]
 
 [ext_resource type="Script" path="res://addons/inventory_tetris/src/InventoryGridPanel.gd" id="1_4q08c"]
 [ext_resource type="Script" path="res://addons/inventory_tetris/src/InventoryGridSlotUI.gd" id="2_5eusm"]
-[ext_resource type="Resource" uid="uid://ckareta4kn58y" path="res://assets/items/flashlight.tres" id="2_fr0d2"]
+[ext_resource type="Script" path="res://src/item_data/EquippableItemData.gd" id="2_y7xme"]
 [ext_resource type="PackedScene" uid="uid://d4ncq5f5uxwxh" path="res://scenes/ui/inventory_grid_slot.tscn" id="3_050d2"]
+[ext_resource type="Resource" uid="uid://bvlvl3wbuolms" path="res://assets/items/pistol.tres" id="3_xvaxj"]
 [ext_resource type="Script" path="res://addons/inventory_tetris/src/InventoryItemInstance.gd" id="3_yupcr"]
-[ext_resource type="Resource" uid="uid://bvlvl3wbuolms" path="res://assets/items/pistol.tres" id="4_12w8x"]
 [ext_resource type="PackedScene" uid="uid://4l38xkfeeagg" path="res://scenes/ui/inventory/inventory_grid_item_icon.tscn" id="4_271j6"]
 [ext_resource type="Script" path="res://addons/inventory_tetris/src/Inventory.gd" id="5_43q4d"]
-[ext_resource type="Resource" uid="uid://betwytd475aie" path="res://assets/items/pistol_ammo.tres" id="5_v2ajl"]
 [ext_resource type="PackedScene" uid="uid://i5kjpoa236pu" path="res://addons/inventory_tetris/src/scenes/inventory_grid_picked_item.tscn" id="7_aihe3"]
 [ext_resource type="Script" path="res://addons/inventory_tetris/src/GridShapeOutline.gd" id="10_78neh"]
 [ext_resource type="Script" path="res://addons/inventory_tetris/src/ItemPopupMenu.gd" id="11_pfvcs"]
@@ -19,59 +18,23 @@ content_margin_top = 2.0
 content_margin_right = 2.0
 content_margin_bottom = 2.0
 
-[sub_resource type="Resource" id="Resource_dns8g"]
-resource_name = "Flashlight"
-script = ExtResource("3_yupcr")
-item = ExtResource("2_fr0d2")
-position = Vector2i(0, 0)
-rotation = 0
-data = Array[Resource("res://addons/inventory_tetris/src/ItemData.gd")]([])
+[sub_resource type="Resource" id="Resource_hptrj"]
+script = ExtResource("2_y7xme")
+is_equipped = false
 
-[sub_resource type="Resource" id="Resource_mc4sy"]
-resource_name = "Flashlight"
-script = ExtResource("3_yupcr")
-item = ExtResource("2_fr0d2")
-position = Vector2i(6, 0)
-rotation = 0
-data = Array[Resource("res://addons/inventory_tetris/src/ItemData.gd")]([])
-
-[sub_resource type="Resource" id="Resource_hbnin"]
-resource_name = "Pistol Ammo"
-script = ExtResource("3_yupcr")
-item = ExtResource("5_v2ajl")
-position = Vector2i(3, 0)
-rotation = 0
-data = Array[Resource("res://addons/inventory_tetris/src/ItemData.gd")]([])
-
-[sub_resource type="Resource" id="Resource_a8clx"]
-resource_name = "Pistol Ammo"
-script = ExtResource("3_yupcr")
-item = ExtResource("5_v2ajl")
-position = Vector2i(0, 2)
-rotation = 0
-data = Array[Resource("res://addons/inventory_tetris/src/ItemData.gd")]([])
-
-[sub_resource type="Resource" id="Resource_2g8t1"]
-resource_name = "Pistol Ammo"
-script = ExtResource("3_yupcr")
-item = ExtResource("5_v2ajl")
-position = Vector2i(1, 3)
-rotation = 0
-data = Array[Resource("res://addons/inventory_tetris/src/ItemData.gd")]([])
-
-[sub_resource type="Resource" id="Resource_1dyny"]
+[sub_resource type="Resource" id="Resource_dme7p"]
 resource_name = "Pistol"
 script = ExtResource("3_yupcr")
-item = ExtResource("4_12w8x")
-position = Vector2i(6, 1)
+item = ExtResource("3_xvaxj")
+position = Vector2i(0, 0)
 rotation = 0
-data = Array[Resource("res://addons/inventory_tetris/src/ItemData.gd")]([])
+data = Array[Resource("res://addons/inventory_tetris/src/ItemData.gd")]([SubResource("Resource_hptrj")])
 
 [sub_resource type="Resource" id="Resource_mwwxi"]
 script = ExtResource("5_43q4d")
 _inventory_control = false
 grid_size = Vector2i(10, 10)
-item_instances = Array[ExtResource("3_yupcr")]([SubResource("Resource_dns8g"), SubResource("Resource_mc4sy"), SubResource("Resource_hbnin"), SubResource("Resource_a8clx"), SubResource("Resource_2g8t1"), SubResource("Resource_1dyny")])
+item_instances = Array[ExtResource("3_yupcr")]([SubResource("Resource_dme7p")])
 
 [node name="InventoryGrid" type="PanelContainer" node_paths=PackedStringArray("item_icons", "grid_slots", "selected_item_outliner", "selected_grid_slot_indicator", "inspector_item_popup_menu", "item_popup_menu")]
 offset_right = 304.0
@@ -118,7 +81,6 @@ anchors_preset = 0
 mouse_filter = 2
 script = ExtResource("10_78neh")
 width = 2
-color = Color(0.648078, 0.648078, 0.648078, 1)
 
 [node name="SelectedGridSlotIndicator" type="Line2D" parent="FloatingUI"]
 visible = false

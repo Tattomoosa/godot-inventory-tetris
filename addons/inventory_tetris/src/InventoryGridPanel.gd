@@ -244,6 +244,6 @@ func _on_selected_item_changed():
 		selected_item_outliner.shape = []
 	else:
 		selected_item_outliner.shape = selected_item_instance.shape
-		selected_item_outliner.color = selected_item_instance.slot_color
+		# selected_item_outliner.color = selected_item_instance.slot_color
 		selected_item_outliner.position = Vector2(selected_item_instance.position) * grid_slots.slot_size
 	selected_item_instance_changed.emit(selected_item_instance)

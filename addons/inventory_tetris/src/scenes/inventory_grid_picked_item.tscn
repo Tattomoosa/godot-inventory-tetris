@@ -16,4 +16,4 @@ script = ExtResource("1_qpf4m")
 item_icon = NodePath("InventoryGridItemIcon")
 
 [node name="InventoryGridItemIcon" parent="." instance=ExtResource("2_qb8uj")]
-outline_show = true
+outline_color = Color(1, 1, 1, 1)

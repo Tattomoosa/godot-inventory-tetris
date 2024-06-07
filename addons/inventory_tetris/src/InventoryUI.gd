@@ -73,7 +73,7 @@ func _ready():
 				func():
 					if src_grid.has_slot_focused:
 						#TODO this sets up inter-inventory traversal, would have to do something way smarter to support more configurations
-						dest_grid.selected_slot.y = src_grid.selected_slot.y
+						dest_grid.selected_slot.x = src_grid.selected_slot.x
 			)
 
 func _error():
