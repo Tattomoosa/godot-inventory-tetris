@@ -122,7 +122,6 @@ func _get_context_menu() -> Array[MenuItem]:
 func _load_item_data():
 	for d in _data:
 		if d.changed.is_connected(emit_changed):
-			print("DISCONNECTING DATA SIGNAL - ", "item_instance: ", self, "data: ", d)
 			d.changed.disconnect(emit_changed)
 	_data = []
 	if !item:

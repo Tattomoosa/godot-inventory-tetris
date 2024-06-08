@@ -80,7 +80,6 @@ func add_item_instance_at(item_instance: InventoryItemInstance, position: Vector
 
 func add_item_instance(item_instance: InventoryItemInstance) -> bool:
 	if !can_add_item_instance(item_instance):
-		print("handling collisions")
 		return handle_collisions(item_instance)
 	item_instances.push_back(item_instance)
 	_update_slots()
@@ -99,7 +98,6 @@ func handle_collisions(item_instance: InventoryItemInstance):
 	var collisions := item_instances_in_shape(item_instance.shape, item_instance.position)
 	for collision_instance in collisions:
 		for data in collision_instance.data:
-			print("data: ", data)
 			if data.on_item_instance_dropped_onto(item_instance):
 				return true
 
@@ -174,7 +172,6 @@ func _update_slots():
 			_slots[item_instance.position + pos] = item_instance
 
 func _on_item_changed():
-	print("ON ITEM CHANGED")
 	_update_slots()
 	items_changed.emit()
 
@@ -202,6 +199,5 @@ func item_instances_in_shape(
 		var instance_at := get_slot(pos)
 		if instance_at and !collisions.has(instance_at):
 			collisions.push_back(instance_at)
-	print("collisions: ", collisions)
 	return collisions
 		

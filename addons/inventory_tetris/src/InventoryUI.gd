@@ -9,7 +9,6 @@ extends Control
 	set(value):
 		other_inventory = value
 		other_inventory_panel.inventory = other_inventory
-		print(other_inventory_panel.inventory)
 		other_inventory_panel.visible = other_inventory != null
 @export var other_inventory_name : String = "":
 	set(value):
