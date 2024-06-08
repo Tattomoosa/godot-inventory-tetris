@@ -38,6 +38,7 @@ func _ready():
 	_update_slots()
 
 func _connect_item_instances():
+	print("connecting item instances...")
 	for item_instance in item_instances:
 		if !item_instance:
 			continue
@@ -66,15 +67,33 @@ func add_item(item: Item) -> bool:
 			return false
 	return add_item_at(item, position)
 
+func add_item_instance_anywhere(item_instance: InventoryItemInstance) -> bool:
+	var position := Vector2i.ZERO
+	var dup := item_instance.duplicate()
+	var start_rotation := item_instance.rotation
+	var first_iteration := false
+	while !can_fit_shape(dup.shape, position):
+		position += Vector2i.RIGHT
+		if position.x >= grid_size.x:
+			position.x = 0
+			position.y += 1
+		if position.y >= grid_size.y:
+			if !first_iteration:
+				if dup.rotation == start_rotation:
+					# not found
+					return false
+			first_iteration = true
+			dup.rotate_clockwise()
+	item_instance.position = position
+	item_instance.rotation = dup.rotation
+	return add_item_instance(item_instance)
+
 func add_item_at(item: Item, position: Vector2i) -> bool:
 	var item_instance := InventoryItemInstance.from_item(item)
 	item_instance.position = position
 	return add_item_instance(item_instance)
 
 func add_item_instance_at(item_instance: InventoryItemInstance, position: Vector2i) -> bool:
-	# if !can_add_item_instance_at(item_instance, position):
-	# 	push_warning("Item instance cannot fit")
-	# 	return false
 	item_instance.position = position
 	return add_item_instance(item_instance)
 
@@ -82,6 +101,8 @@ func add_item_instance(item_instance: InventoryItemInstance) -> bool:
 	if !can_add_item_instance(item_instance):
 		return handle_collisions(item_instance)
 	item_instances.push_back(item_instance)
+	# TODO could just connect the new item
+	_connect_item_instances()
 	_update_slots()
 	items_changed.emit()
 	return true
@@ -157,6 +178,13 @@ func get_first_instance_of_item(item: Item) -> InventoryItemInstance:
 			return item_instance
 	return null
 
+func get_all_instances_of_item(item: Item) -> Array[InventoryItemInstance]:
+	var instances : Array[InventoryItemInstance] = []
+	for item_instance in item_instances:
+		if item_instance.item == item:
+			instances.push_back(item_instance)
+	return instances
+
 func get_item_at_index_root_position(item_index: int) -> Vector2i:
 	if item_index < 0:
 		push_warning("Item not found")
@@ -172,6 +200,7 @@ func _update_slots():
 			_slots[item_instance.position + pos] = item_instance
 
 func _on_item_changed():
+	print("INVENTORY - ITEM CHANGED")
 	_update_slots()
 	items_changed.emit()
 

@@ -14,7 +14,7 @@ extends Control
 			item_instance.changed.connect(_on_item_changed)
 		_on_item_changed()
 
-@export var cell_size := Vector2i(20,20)
+@export var cell_size := Vector2i(30,30)
 
 @export_group("Background", "background_")
 @export var background_use_item_color := true:

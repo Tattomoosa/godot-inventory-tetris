@@ -152,6 +152,12 @@ func _on_picked_item():
 		return
 	if !silence_grid_sounds:
 		picked_item_audio_player.play()
+	if Input.is_action_pressed("send_to_main_inventory"):
+		var add_to_inventory := other_inventory if picked_item_instance.from_inventory == player_inventory else player_inventory
+		if add_to_inventory.add_item_instance_anywhere(picked_item_instance.item_instance):
+			picked_item_instance = null
+
+			
 
 func _on_canceled_item():
 	if !silence_grid_sounds:
