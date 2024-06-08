@@ -44,11 +44,13 @@ var shape: Array[Vector2i] = []:
 		if !item:
 			return []
 		return get_rotated_shape()
+
 var item_name: String:
 	get:
 		if !item:
 			return "."
 		return item.item_name
+
 var slot_color: Color:
 	get:
 		if !item:
@@ -57,6 +59,13 @@ var slot_color: Color:
 var context_menu: Array[MenuItem]:
 	get:
 		return _get_context_menu()
+
+var rect : Rect2i:
+	get:
+		var r := Rect2i(shape[0], Vector2i.ZERO)
+		for slot in shape:
+			r = r.expand(slot)
+		return r
 
 func local_position(pos: Vector2i):
 	return pos - position
@@ -106,19 +115,25 @@ func get_rotation_degrees() -> float:
 
 func _get_context_menu() -> Array[MenuItem]:
 	var context_menu: Array[MenuItem] = []
-	for d in item.data:
+	for d in _data:
 		context_menu.append_array(d.context_menu)
 	return context_menu
 
 func _load_item_data():
+	for d in _data:
+		if d.changed.is_connected(emit_changed):
+			print("DISCONNECTING DATA SIGNAL - ", "item_instance: ", self, "data: ", d)
+			d.changed.disconnect(emit_changed)
 	_data = []
 	if !item:
 		return
 	# TODO this seems to be called much more than it needs to
 	for d in item.data:
-		var data := d.duplicate()
-		data.changed.connect(emit_changed)
-		_data.push_back(data)
+		if !d: continue
+		var d1 := d.duplicate(true)
+		d1.item_instance = self
+		d1.changed.connect(emit_changed)
+		_data.push_back(d1)
 
 static func from_item(item: Item) -> InventoryItemInstance:
 	var item_instance := InventoryItemInstance.new()

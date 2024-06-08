@@ -16,7 +16,6 @@ extends Control
 
 @export var cell_size := Vector2i(20,20)
 
-## If the color has a lower opacity it will be used instead
 @export_group("Background", "background_")
 @export var background_use_item_color := true:
 	set(value):
@@ -24,6 +23,7 @@ extends Control
 		if is_node_ready():
 			_update_background()
 
+## If the color has a lower opacity it will be used instead
 @export var background_opacity := 0.2:
 	set(value):
 		background_opacity = value
@@ -94,15 +94,36 @@ func _update_shape():
 	_update_outline()
 	_update_texture()
 
+func _get_top_left_slot() -> Vector2i:
+	var shape := item_instance.shape
+	var top_left : Vector2i = item_instance.rect.position
+	while !shape.has(top_left):
+		top_left.x += 1
+	return top_left
+
+func _get_bottom_right_slot() -> Vector2i:
+	var shape := item_instance.shape
+	var bottom_right : Vector2i = item_instance.rect.position + item_instance.rect.size
+	while !shape.has(bottom_right):
+		bottom_right.x -= 1
+	return bottom_right
+
 func _update_badges():
-	print("Updating badges")
+	if Engine.is_editor_hint():
+		return
 	for child in badge_container.get_children():
 		child.queue_free()
 	for data in item_instance.data:
 		var badge : Control = data.get_badge()
-		push_warning(badge)
 		if badge:
 			badge_container.add_child(badge)
+
+	badge_container.position = _get_top_left_slot() * cell_size
+	# var pos := _get_bottom_right_slot() * cell_size
+	# badge_container.size = Vector2i.ZERO
+	# pos.y += cell_size.y - badge_container.size.y
+	# badge_container.position = pos
+
 
 func _update_background():
 	var color := item_instance.slot_color if background_use_item_color else background_color

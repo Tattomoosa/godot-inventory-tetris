@@ -8,9 +8,11 @@ var item_instance: InventoryItemInstance
 ## offset from selected grid slot
 var offset: Vector2i
 ## picked from item_instance
-var from_item_instance: InventoryItemInstance
+# var from_item_instance: InventoryItemInstance
 ## picked from inventory
 var from_inventory: Inventory
+var from_slot : Vector2i
+var from_rotation : InventoryItemInstance.ROTATION
 ## currently over inventory
 var over_inventory: Inventory
 
@@ -33,10 +35,11 @@ static func create(
 	over_inventory_: Inventory = null
 ):
 	var p : InventoryGridPickedItem = scene.instantiate()
-	p.from_item_instance = item_instance_
-	p.item_instance = item_instance_.duplicate()
+	p.item_instance = item_instance_
 	p.offset = offset_
+	p.from_slot = item_instance_.position
 	p.from_inventory = from_inventory_
+	p.from_rotation = item_instance_.rotation
 	p.over_inventory = over_inventory_ if over_inventory_ else from_inventory_
 	return p
 
@@ -52,7 +55,17 @@ func rotate_counterclockwise():
 
 func cancel():
 	if from_inventory:
-		from_inventory.add_item_instance(from_item_instance)
+		item_instance.rotation = from_rotation
+		from_inventory.add_item_instance_at(item_instance, from_slot)
+
+func place(slot: Vector2i) -> bool:
+	var drop_slot := slot - offset
+	var result := over_inventory.add_item_instance_at(item_instance, drop_slot)
+	if result:
+		if over_inventory != from_inventory:
+			for d in item_instance.data:
+				d.on_changed_inventory()
+	return result
 
 func _process(_delta: float) -> void:
 	if Engine.is_editor_hint():

@@ -30,10 +30,14 @@ func _ready():
 	focus_entered.connect(_on_focused)
 
 func _populate() -> void:
+	_slots = {}
+	selected_slot = Vector2i.ZERO
 	for child in get_children():
 		child.queue_free()
 	if !slot_scene:
 		push_warning("no slot scene set")
+	if grid_size.x < 1:
+		return
 	columns = grid_size.x
 	for y in grid_size.y:
 		for x in grid_size.x:
@@ -81,12 +85,16 @@ func _populate() -> void:
 				var bottom_neighbor = get_slot(Vector2i(x, y + 1))
 				slot.focus_neighbor_bottom = bottom_neighbor.get_path()
 
+func has_slot_at(pos: Vector2i) -> bool:
+	return _slots.has(pos)
+
 func get_slot(pos: Vector2i) -> Control:
-	return _slots[pos]
+	return _slots.get(pos, null)
 
 func set_slot_focused(pos: Vector2i):
 	get_slot(pos).grab_focus()
 
 func _on_focused():
 	var slot := get_slot(selected_slot)
-	slot.grab_focus()
+	if slot:
+		slot.grab_focus()

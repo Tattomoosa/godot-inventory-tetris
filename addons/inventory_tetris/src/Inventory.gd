@@ -25,9 +25,14 @@ extends Resource
 var _slots = {
 	# Vector2i.ZERO: InventoryItemInstance
 }
+# empty means it will allow any item instance
+var restrict_to_item_instances : Array[InventoryItemInstance] = []
+# empty means it will allow any item
+var restrict_to_items : Array[Item] = []
 
 signal grid_size_changed
 signal items_changed
+signal error_placing_item
 
 func _ready():
 	_update_slots()
@@ -67,28 +72,45 @@ func add_item_at(item: Item, position: Vector2i) -> bool:
 	return add_item_instance(item_instance)
 
 func add_item_instance_at(item_instance: InventoryItemInstance, position: Vector2i) -> bool:
-	if !can_add_item_instance_at(item_instance, position):
-		push_warning("Item instance cannot fit")
-		return false
+	# if !can_add_item_instance_at(item_instance, position):
+	# 	push_warning("Item instance cannot fit")
+	# 	return false
 	item_instance.position = position
 	return add_item_instance(item_instance)
 
 func add_item_instance(item_instance: InventoryItemInstance) -> bool:
 	if !can_add_item_instance(item_instance):
-		push_warning("Item instance cannot fit")
-		return false
+		print("handling collisions")
+		return handle_collisions(item_instance)
 	item_instances.push_back(item_instance)
 	_update_slots()
 	items_changed.emit()
 	return true
 
 func can_add_item_instance(item_instance: InventoryItemInstance) -> bool:
+	if !restrict_to_item_instances.is_empty() and !restrict_to_item_instances.has(item_instance):
+		return false
+	# TODO untested
+	if !restrict_to_items.is_empty() and !restrict_to_items.has(item_instance.item):
+		return false
 	return can_fit_shape(item_instance.shape, item_instance.position)
+
+func handle_collisions(item_instance: InventoryItemInstance):
+	var collisions := item_instances_in_shape(item_instance.shape, item_instance.position)
+	for collision_instance in collisions:
+		for data in collision_instance.data:
+			print("data: ", data)
+			if data.on_item_instance_dropped_onto(item_instance):
+				return true
+
+	return false
 
 func can_add_item_instance_at(item_instance: InventoryItemInstance, position: Vector2i) -> bool:
 	return can_fit_shape(item_instance.shape, position)
 
 func remove_item_instance(item_instance: InventoryItemInstance):
+	if item_instance.changed.is_connected(_on_item_changed):
+		item_instance.changed.disconnect(_on_item_changed)
 	item_instances.erase(item_instance)
 	_update_slots()
 	items_changed.emit()
@@ -131,6 +153,12 @@ func get_item_instance_at(position: Vector2i) -> InventoryItemInstance:
 		return _slots[position]
 	return null
 
+func get_first_instance_of_item(item: Item) -> InventoryItemInstance:
+	for item_instance in item_instances:
+		if item_instance.item == item:
+			return item_instance
+	return null
+
 func get_item_at_index_root_position(item_index: int) -> Vector2i:
 	if item_index < 0:
 		push_warning("Item not found")
@@ -146,6 +174,7 @@ func _update_slots():
 			_slots[item_instance.position + pos] = item_instance
 
 func _on_item_changed():
+	print("ON ITEM CHANGED")
 	_update_slots()
 	items_changed.emit()
 
@@ -160,3 +189,19 @@ func can_fit_shape(
 		if get_slot(pos):
 			return false
 	return true
+
+func item_instances_in_shape(
+	shape: Array[Vector2i],
+	position: Vector2i = Vector2i.ZERO
+) -> Array[InventoryItemInstance]:
+	var collisions : Array[InventoryItemInstance] = []
+	for slot_pos in shape:
+		var pos = position + slot_pos
+		if !has_slot_at(pos):
+			continue
+		var instance_at := get_slot(pos)
+		if instance_at and !collisions.has(instance_at):
+			collisions.push_back(instance_at)
+	print("collisions: ", collisions)
+	return collisions
+		

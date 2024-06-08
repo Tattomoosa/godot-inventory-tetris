@@ -29,10 +29,10 @@ extends Resource
 @export var data : Array[ItemData] = []:
 	set(value):
 		data = value
-		emit_changed()
 		for d in data:
 			if d and !d.changed.is_connected(emit_changed):
 				d.changed.connect(emit_changed)
+		emit_changed()
 
 var rect : Rect2i:
 	get:

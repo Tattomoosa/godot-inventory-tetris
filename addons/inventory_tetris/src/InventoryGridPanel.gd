@@ -66,6 +66,7 @@ var lock_selected_item_instance := false
 
 #region Public Methods
 
+
 func set_active():
 	if !Engine.is_editor_hint():
 		grid_slots.grab_focus()
@@ -89,11 +90,13 @@ func _ready():
 		func():
 			grid_slots.grab_focus()
 	)
-	_on_selected_slot_changed()
-	_on_inventory_size_changed()
-	_on_inventory_items_changed()
-	_on_selected_item_changed()
-	_on_picked_item_changed()
+	if inventory:
+		_on_selected_slot_changed()
+		_on_inventory_size_changed()
+		_on_inventory_items_changed()
+		_on_selected_item_changed()
+		_on_picked_item_changed()
+
 	if Engine.is_editor_hint():
 		_setup_inspector_item_popup_menu()
 
@@ -109,9 +112,8 @@ func _on_picked_item_changed():
 	_on_selected_slot_changed()
 
 func _placed_picked_item():
-	var slot := selected_slot
-	var drop_slot := slot - picked_item_instance.offset
-	var added := inventory.add_item_instance_at(picked_item_instance.item_instance, drop_slot)
+	# TODO this needs better handling to support sounds/effects on filling items
+	var added : bool = picked_item_instance.place(selected_slot)
 	if !added:
 		_cancel_picked_item()
 	picked_item_instance = null
@@ -122,7 +124,6 @@ func _placed_picked_item():
 func _cancel_picked_item():
 	if picked_item_instance:
 		picked_item_instance.cancel()
-		# inventory.add_item_instance(picked_item_instance.from_item_instance)
 	picked_item_instance = null
 	picked_item_instance_changed.emit(picked_item_instance)
 	canceled_picked_item.emit()
@@ -137,7 +138,7 @@ func _pick_selected_item():
 		inventory,
 		picked_item_scene
 	)
-	inventory.remove_item_instance(picked_item_instance.from_item_instance)
+	inventory.remove_item_instance(picked_item_instance.item_instance)
 	selected_item_instance = null
 	picked_item_instance_changed.emit(picked_item_instance)
 
@@ -204,10 +205,10 @@ func _connect_inventory_signals():
 	inventory.items_changed.connect(_on_inventory_items_changed)
 
 func _on_inventory_size_changed():
-	grid_slots.grid_size = inventory.grid_size
+	grid_slots.grid_size = inventory.grid_size if inventory else Vector2i.ZERO
 
 func _on_selected_slot_changed() -> void:
-	selected_slot
+	# selected_slot
 	if !grid_slots.has_slot_focused:
 		selected_grid_slot_indicator.hide()
 		selected_item_instance = null
@@ -221,11 +222,14 @@ func _on_selected_slot_changed() -> void:
 			picked_item_instance.reparent(selected_grid_slot_indicator, false)
 			picked_item_instance.position = Vector2i.ZERO
 		return
-	selected_item_instance = inventory.get_item_instance_at(slot)
+	if inventory:
+		selected_item_instance = inventory.get_item_instance_at(slot)
 
 func _on_inventory_items_changed():
 	for child in item_icons.get_children():
 		child.queue_free()
+	if !inventory:
+		return
 	for item_instance in inventory.item_instances:
 		if !item_instance:
 			continue
