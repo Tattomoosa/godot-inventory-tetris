@@ -33,7 +33,7 @@ static func create(
  	from_inventory_: Inventory,
 	scene: PackedScene,
 	over_inventory_: Inventory = null
-):
+) -> InventoryGridPickedItem:
 	var p : InventoryGridPickedItem = scene.instantiate()
 	p.item_instance = item_instance_
 	p.offset = offset_
@@ -43,17 +43,17 @@ static func create(
 	p.over_inventory = over_inventory_ if over_inventory_ else from_inventory_
 	return p
 
-func rotate_clockwise():
+func rotate_clockwise() -> void:
 	offset = Vector2i(-offset.y, offset.x)
 	item_instance.rotate_clockwise()
 	rotated.emit()
 
-func rotate_counterclockwise():
+func rotate_counterclockwise() -> void:
 	offset = Vector2i(offset.y, -offset.x)
 	item_instance.rotate_counterclockwise()
 	rotated.emit()
 
-func cancel():
+func cancel() -> void:
 	if from_inventory:
 		item_instance.rotation = from_rotation
 		from_inventory.add_item_instance_at(item_instance, from_slot)

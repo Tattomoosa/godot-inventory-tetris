@@ -64,12 +64,12 @@ var shape_cell := ColorRect.new()
 
 signal outline_changed
 
-func _ready():
+func _ready() -> void:
 	shape_cell.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	outline_changed.connect(_update_outline)
 	_on_item_changed()
 
-func _on_item_changed():
+func _on_item_changed() -> void:
 	if !is_node_ready():
 		return
 	if !item_instance:
@@ -79,7 +79,7 @@ func _on_item_changed():
 	_update_shape()
 	_update_badges()
 
-func _clear():
+func _clear() -> void:
 	if !is_node_ready():
 		return
 	label.text = ""
@@ -89,7 +89,7 @@ func _clear():
 	shape_outline.shape = []
 
 # Draws the item shape using the item's slot_color
-func _update_shape():
+func _update_shape() -> void:
 	_update_background()
 	_update_outline()
 	_update_texture()
@@ -108,7 +108,7 @@ func _get_bottom_right_slot() -> Vector2i:
 		bottom_right.x -= 1
 	return bottom_right
 
-func _update_badges():
+func _update_badges() -> void:
 	if Engine.is_editor_hint():
 		return
 	for child in badge_container.get_children():
@@ -125,7 +125,7 @@ func _update_badges():
 	# badge_container.position = pos
 
 
-func _update_background():
+func _update_background() -> void:
 	var color := item_instance.slot_color if background_use_item_color else background_color
 	color.a = background_opacity if background_opacity < color.a else color.a
 
@@ -144,7 +144,7 @@ func _update_background():
 		cell.color = color
 		cell.size = cell_size
 
-func _update_outline():
+func _update_outline() -> void:
 	shape_outline.width = outline_width
 	if !item_instance:
 		return
@@ -155,7 +155,7 @@ func _update_outline():
 	else:
 		shape_outline.color = outline_color
 
-func _update_texture():
+func _update_texture() -> void:
 	var item := item_instance.item
 	var item_rect := item.rect
 	item_rect.size += Vector2i.ONE

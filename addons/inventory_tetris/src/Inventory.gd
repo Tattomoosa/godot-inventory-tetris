@@ -37,7 +37,7 @@ signal error_placing_item
 func _ready():
 	_update_slots()
 
-func _connect_item_instances():
+func _connect_item_instances() -> void:
 	print("connecting item instances...")
 	for item_instance in item_instances:
 		if !item_instance:
@@ -115,7 +115,7 @@ func can_add_item_instance(item_instance: InventoryItemInstance) -> bool:
 		return false
 	return can_fit_shape(item_instance.shape, item_instance.position)
 
-func handle_collisions(item_instance: InventoryItemInstance):
+func handle_collisions(item_instance: InventoryItemInstance) -> bool:
 	var collisions := item_instances_in_shape(item_instance.shape, item_instance.position)
 	for collision_instance in collisions:
 		for data in collision_instance.data:
@@ -127,7 +127,7 @@ func handle_collisions(item_instance: InventoryItemInstance):
 func can_add_item_instance_at(item_instance: InventoryItemInstance, position: Vector2i) -> bool:
 	return can_fit_shape(item_instance.shape, position)
 
-func remove_item_instance(item_instance: InventoryItemInstance):
+func remove_item_instance(item_instance: InventoryItemInstance) -> void:
 	if item_instance.changed.is_connected(_on_item_changed):
 		item_instance.changed.disconnect(_on_item_changed)
 	item_instances.erase(item_instance)
@@ -191,7 +191,7 @@ func get_item_at_index_root_position(item_index: int) -> Vector2i:
 		return Vector2i.ZERO
 	return item_instances[item_index].position
 
-func _update_slots():
+func _update_slots() -> void:
 	_slots = {}
 	for item_instance in item_instances:
 		if !item_instance or !item_instance.item:
@@ -199,8 +199,7 @@ func _update_slots():
 		for pos in item_instance.shape:
 			_slots[item_instance.position + pos] = item_instance
 
-func _on_item_changed():
-	print("INVENTORY - ITEM CHANGED")
+func _on_item_changed() -> void:
 	_update_slots()
 	items_changed.emit()
 
