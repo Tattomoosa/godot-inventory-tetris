@@ -157,11 +157,13 @@ func _on_picked_item():
 		if add_to_inventory.add_item_instance_anywhere(picked_item_instance.item_instance):
 			picked_item_instance = null
 
-			
-
+# TODO need to differentiate between a picked item which was
+# cancelled, hit an error on placement, or had placement handled by ItemData
+# somehow....
 func _on_canceled_item():
 	if !silence_grid_sounds:
-		errored_audio_player.play()
+		# errored_audio_player.play()
+		pass
 
 func _process(_delta: float):
 	if Engine.is_editor_hint():

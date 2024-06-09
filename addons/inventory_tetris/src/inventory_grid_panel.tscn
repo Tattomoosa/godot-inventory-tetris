@@ -1,13 +1,8 @@
-[gd_scene load_steps=20 format=3 uid="uid://dfwvl1wt36hkv"]
+[gd_scene load_steps=12 format=3 uid="uid://dfwvl1wt36hkv"]
 
 [ext_resource type="Script" path="res://addons/inventory_tetris/src/InventoryGridPanel.gd" id="1_4q08c"]
 [ext_resource type="Script" path="res://addons/inventory_tetris/src/InventoryGridSlotUI.gd" id="2_5eusm"]
-[ext_resource type="Script" path="res://src/item_data/EquippableItemData.gd" id="2_y7xme"]
-[ext_resource type="Script" path="res://src/item_data/FillableItemData.gd" id="3_5fqed"]
-[ext_resource type="Resource" uid="uid://betwytd475aie" path="res://assets/items/pistol_ammo.tres" id="3_15n7m"]
 [ext_resource type="PackedScene" uid="uid://d4ncq5f5uxwxh" path="res://scenes/ui/inventory_grid_slot.tscn" id="3_050d2"]
-[ext_resource type="Resource" uid="uid://bvlvl3wbuolms" path="res://assets/items/pistol.tres" id="3_xvaxj"]
-[ext_resource type="Script" path="res://addons/inventory_tetris/src/InventoryItemInstance.gd" id="3_yupcr"]
 [ext_resource type="PackedScene" uid="uid://4l38xkfeeagg" path="res://scenes/ui/inventory/inventory_grid_item_icon.tscn" id="4_271j6"]
 [ext_resource type="Script" path="res://addons/inventory_tetris/src/Inventory.gd" id="5_43q4d"]
 [ext_resource type="PackedScene" uid="uid://i5kjpoa236pu" path="res://addons/inventory_tetris/src/scenes/inventory_grid_picked_item.tscn" id="7_aihe3"]
@@ -21,32 +16,11 @@ content_margin_top = 2.0
 content_margin_right = 2.0
 content_margin_bottom = 2.0
 
-[sub_resource type="Resource" id="Resource_mxgn5"]
-resource_name = "Equippable"
-script = ExtResource("2_y7xme")
-is_equipped = false
-
-[sub_resource type="Resource" id="Resource_avsj1"]
-resource_name = "Fillable"
-script = ExtResource("3_5fqed")
-current_value = 6
-max_value = 6
-fillable_from_self = false
-fillable_from = Array[Resource("res://addons/inventory_tetris/src/Item.gd")]([ExtResource("3_15n7m")])
-
-[sub_resource type="Resource" id="Resource_dme7p"]
-resource_name = "Pistol"
-script = ExtResource("3_yupcr")
-item = ExtResource("3_xvaxj")
-position = Vector2i(0, 0)
-rotation = 0
-data = Array[Resource("res://addons/inventory_tetris/src/ItemData.gd")]([SubResource("Resource_mxgn5"), SubResource("Resource_avsj1")])
-
 [sub_resource type="Resource" id="Resource_mwwxi"]
 script = ExtResource("5_43q4d")
 _inventory_control = false
 grid_size = Vector2i(10, 10)
-item_instances = Array[ExtResource("3_yupcr")]([SubResource("Resource_dme7p")])
+item_instances = Array[Resource("res://addons/inventory_tetris/src/InventoryItemInstance.gd")]([])
 
 [node name="InventoryGrid" type="PanelContainer" node_paths=PackedStringArray("item_icons", "grid_slots", "selected_item_outliner", "selected_grid_slot_indicator", "inspector_item_popup_menu", "item_popup_menu")]
 offset_right = 304.0
