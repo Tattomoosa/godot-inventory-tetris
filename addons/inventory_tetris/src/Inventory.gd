@@ -38,7 +38,6 @@ func _ready():
 	_update_slots()
 
 func _connect_item_instances() -> void:
-	print("connecting item instances...")
 	for item_instance in item_instances:
 		if !item_instance:
 			continue

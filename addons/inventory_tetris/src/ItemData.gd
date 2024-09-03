@@ -19,3 +19,6 @@ func on_item_instance_dropped_onto(item_instance: InventoryItemInstance):
 
 func get_badge() -> Control:
 	return null
+
+func clone() -> ItemData:
+	return duplicate(true)

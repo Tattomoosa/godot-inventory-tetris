@@ -129,7 +129,8 @@ func _load_item_data():
 	# TODO this seems to be called much more than it needs to
 	for d in item.data:
 		if !d: continue
-		var d1 := d.duplicate(true)
+		# var d1 := d.duplicate(true)
+		var d1 := d.clone()
 		d1.item_instance = self
 		d1.changed.connect(emit_changed)
 		_data.push_back(d1)
@@ -138,3 +139,9 @@ static func from_item(item: Item) -> InventoryItemInstance:
 	var item_instance := InventoryItemInstance.new()
 	item_instance.item = item
 	return item_instance
+
+func get_data(data_type: Variant) -> ItemData:
+	for d in data:
+		if is_instance_of(d, data_type):
+			return d
+	return null

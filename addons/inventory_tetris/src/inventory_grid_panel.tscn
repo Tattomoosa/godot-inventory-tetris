@@ -1,7 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://dfwvl1wt36hkv"]
+[gd_scene load_steps=13 format=3 uid="uid://dfwvl1wt36hkv"]
 
 [ext_resource type="Script" path="res://addons/inventory_tetris/src/InventoryGridPanel.gd" id="1_4q08c"]
 [ext_resource type="Script" path="res://addons/inventory_tetris/src/InventoryGridSlotUI.gd" id="2_5eusm"]
+[ext_resource type="Script" path="res://addons/inventory_tetris/src/InventoryItemInstance.gd" id="2_nbe2q"]
 [ext_resource type="PackedScene" uid="uid://d4ncq5f5uxwxh" path="res://scenes/ui/inventory_grid_slot.tscn" id="3_050d2"]
 [ext_resource type="PackedScene" uid="uid://4l38xkfeeagg" path="res://scenes/ui/inventory/inventory_grid_item_icon.tscn" id="4_271j6"]
 [ext_resource type="Script" path="res://addons/inventory_tetris/src/Inventory.gd" id="5_43q4d"]
@@ -20,7 +21,7 @@ content_margin_bottom = 2.0
 script = ExtResource("5_43q4d")
 _inventory_control = false
 grid_size = Vector2i(10, 10)
-item_instances = Array[Resource("res://addons/inventory_tetris/src/InventoryItemInstance.gd")]([])
+item_instances = Array[ExtResource("2_nbe2q")]([])
 
 [node name="InventoryGrid" type="PanelContainer" node_paths=PackedStringArray("item_icons", "grid_slots", "selected_item_outliner", "selected_grid_slot_indicator", "inspector_item_popup_menu", "item_popup_menu")]
 offset_right = 304.0
@@ -97,10 +98,8 @@ script = ExtResource("11_pfvcs")
 size = Vector2i(220, 100)
 item_count = 4
 item_0/text = "Rotate Clockwise"
-item_0/id = 0
 item_1/text = "Rotate Counterclockwise"
 item_1/id = 1
-item_2/text = ""
 item_2/id = 3
 item_2/separator = true
 item_3/text = "Delete"

@@ -40,3 +40,9 @@ var rect : Rect2i:
 		for slot in shape:
 			r = r.expand(slot)
 		return r
+
+func get_data(data_type: Variant) -> ItemData:
+	for d in data:
+		if is_instance_of(d, data_type):
+			return d
+	return null
