@@ -12,7 +12,7 @@ func _parse_property(object, type, name, hint_type, hint_string, usage_flags, wi
 		var grid : InventoryGridPanel = INVENTORY_GRID_PANEL.instantiate()
 		grid.inventory = inventory
 		# TODO grid_panel doesn't fully support this yet
-		# grid.grid_slots.slot_size = grid.grid_slots.slot_size * DisplayServer.screen_get_scale()
+		grid.slot_size = grid.slot_size * DisplayServer.screen_get_scale()
 
 		var center_parent := CenterContainer.new()
 		center_parent.add_child(grid)

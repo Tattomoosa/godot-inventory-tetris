@@ -228,3 +228,6 @@ func item_instances_in_shape(
 			collisions.push_back(instance_at)
 	return collisions
 		
+func _validate_property(property: Dictionary):
+	if property.name == "item_instances":
+		property.usage = PROPERTY_USAGE_NO_EDITOR

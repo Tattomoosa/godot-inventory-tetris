@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dfwvl1wt36hkv"]
+[gd_scene load_steps=14 format=3 uid="uid://dfwvl1wt36hkv"]
 
 [ext_resource type="Script" path="res://addons/inventory_tetris/src/InventoryGridPanel.gd" id="1_4q08c"]
 [ext_resource type="Script" path="res://addons/inventory_tetris/src/InventoryGridSlotUI.gd" id="2_5eusm"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://4l38xkfeeagg" path="res://scenes/ui/inventory/inventory_grid_item_icon.tscn" id="4_271j6"]
 [ext_resource type="Script" path="res://addons/inventory_tetris/src/Inventory.gd" id="5_43q4d"]
 [ext_resource type="PackedScene" uid="uid://i5kjpoa236pu" path="res://addons/inventory_tetris/src/scenes/inventory_grid_picked_item.tscn" id="7_aihe3"]
+[ext_resource type="Script" path="res://addons/inventory_tetris/src/RectOutline2D.gd" id="9_kwty0"]
 [ext_resource type="Script" path="res://addons/inventory_tetris/src/GridShapeOutline.gd" id="10_78neh"]
 [ext_resource type="Script" path="res://src/util/SyncVisibility.gd" id="11_m8c0b"]
 [ext_resource type="Script" path="res://addons/inventory_tetris/src/ItemPopupMenu.gd" id="11_pfvcs"]
@@ -71,12 +72,12 @@ width = 3
 color = Color(0.476578, 0.476578, 0.476578, 1)
 
 [node name="SelectedGridSlotIndicator" type="Line2D" parent="FloatingUI"]
-visible = false
 z_as_relative = false
 points = PackedVector2Array(30, 0, 30, 30, 0, 30, 0, 0)
 closed = true
 width = 2.0
 default_color = Color(0.898039, 0.898039, 0.898039, 0.717647)
+script = ExtResource("9_kwty0")
 
 [node name="Control" type="Control" parent="FloatingUI" node_paths=PackedStringArray("watch_visibility")]
 visible = false

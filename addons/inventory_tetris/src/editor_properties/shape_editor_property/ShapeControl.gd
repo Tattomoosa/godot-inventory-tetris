@@ -58,10 +58,10 @@ func _update_buttons() -> void:
 					shape.erase(slot)
 					shape_changed.emit()
 			)
-		btn.position = slot * (btn_size + space)
-		btn.custom_minimum_size = btn_size
 		center.add_child(btn)
+		btn.custom_minimum_size = btn_size
 		btn.show()
+		btn.position = slot * (Vector2i(btn.size) + space)
 
 		bounds = bounds.expand(slot)
 
@@ -74,10 +74,10 @@ func _update_buttons() -> void:
 		for s in add_slots:
 			if !shape.has(s) and !add_btn_positions.has(s):
 				var add_btn := add_cell_button.duplicate()
-				add_btn.position = s * (btn_size + space)
 				center.add_child(add_btn)
-				add_btn.show()
 				add_btn.custom_minimum_size = btn_size
+				add_btn.show()
+				add_btn.position = s * (Vector2i(add_btn.size) + space)
 				add_btn_positions.push_back(s)
 				add_btn.pressed.connect(
 					func():

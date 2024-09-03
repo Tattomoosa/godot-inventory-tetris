@@ -1,23 +1,24 @@
-[gd_scene load_steps=9 format=3 uid="uid://b45ytyqrxbsie"]
+[gd_scene load_steps=10 format=3 uid="uid://b45ytyqrxbsie"]
 
 [ext_resource type="Script" path="res://addons/inventory_tetris/src/editor_properties/shape_editor_property/ShapeControl.gd" id="1_5ovkm"]
 [ext_resource type="Texture2D" uid="uid://dq4jrmb3cno10" path="res://addons/inventory_tetris/src/inspector_plugins/icons/Add.svg" id="2_ckymr"]
 [ext_resource type="Texture2D" uid="uid://b8fm7ntqx7ric" path="res://addons/inventory_tetris/src/inspector_plugins/icons/Remove.svg" id="3_f8mau"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p7ks8"]
-bg_color = Color(0.154876, 0.154876, 0.154876, 1)
+[ext_resource type="Texture2D" uid="uid://bpf5lkbj63gl5" path="res://addons/inventory_tetris/src/inspector_plugins/icons/Node.svg" id="4_cjb64"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jdbyp"]
 bg_color = Color(0.342207, 0.342207, 0.342207, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wcmax"]
-bg_color = Color(0.301961, 0.439216, 0.666667, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p7ks8"]
+bg_color = Color(0.154876, 0.154876, 0.154876, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_76jji"]
 bg_color = Color(0.417578, 0.557808, 0.78879, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wcmax"]
+bg_color = Color(0.301961, 0.439216, 0.666667, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iy8ya"]
-bg_color = Color(0.493546, 0.493546, 0.493546, 1)
+bg_color = Color(0.113049, 0.113049, 0.113049, 1)
 
 [node name="ShapeCreator" type="Control" node_paths=PackedStringArray("add_cell_button", "active_cell_button", "root_cell_button", "center", "reset_button", "root_left_button", "root_down_button", "root_up_button", "root_right_button")]
 custom_minimum_size = Vector2(2.08165e-12, 400)
@@ -132,8 +133,8 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(10, 10)
 theme_override_colors/icon_normal_color = Color(0.331019, 0.331019, 0.331019, 1)
-theme_override_styles/normal = SubResource("StyleBoxFlat_p7ks8")
 theme_override_styles/hover = SubResource("StyleBoxFlat_jdbyp")
+theme_override_styles/normal = SubResource("StyleBoxFlat_p7ks8")
 icon = ExtResource("2_ckymr")
 clip_text = true
 icon_alignment = 1
@@ -156,8 +157,8 @@ grow_vertical = 2
 pivot_offset = Vector2(10, 10)
 theme_override_colors/icon_normal_color = Color(0, 0, 0, 0)
 theme_override_colors/icon_hover_color = Color(1, 1, 1, 1)
-theme_override_styles/normal = SubResource("StyleBoxFlat_wcmax")
 theme_override_styles/hover = SubResource("StyleBoxFlat_76jji")
+theme_override_styles/normal = SubResource("StyleBoxFlat_wcmax")
 icon = ExtResource("3_f8mau")
 clip_text = true
 icon_alignment = 1
@@ -194,11 +195,10 @@ offset_bottom = 8.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(10, 10)
-theme_override_colors/icon_normal_color = Color(0, 0, 0, 0)
-theme_override_colors/icon_hover_color = Color(1, 1, 1, 1)
-theme_override_styles/normal = SubResource("StyleBoxFlat_iy8ya")
-theme_override_styles/hover = SubResource("StyleBoxFlat_iy8ya")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_iy8ya")
+theme_override_styles/hover = SubResource("StyleBoxFlat_iy8ya")
+theme_override_styles/normal = SubResource("StyleBoxFlat_iy8ya")
 disabled = true
+icon = ExtResource("4_cjb64")
 clip_text = true
 icon_alignment = 1

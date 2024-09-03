@@ -18,6 +18,12 @@ signal blank_context_menu_requested
 			_on_inventory_items_changed()
 			_on_inventory_size_changed()
 
+@export var slot_size := Vector2(30.0, 30.0):
+	set(value):
+		slot_size = value
+		if is_node_ready():
+			_update_slot_size()
+
 @export var item_icon_scene : PackedScene
 @export var handle_input := true
 var selected_slot := Vector2i(0,0):
@@ -34,7 +40,7 @@ var has_selected_slot : bool:
 @export var item_icons : Control
 @export var grid_slots : InventoryGridSlotUi
 @export var selected_item_outliner : GridShapeOutline
-@export var selected_grid_slot_indicator : Line2D
+@export var selected_grid_slot_indicator : RectOutline2D
 @export var inspector_item_popup_menu : PopupMenu
 @export var item_popup_menu : PopupMenu
 @export var picked_item_scene : PackedScene # InventoryGridPickedItem
@@ -78,11 +84,13 @@ func pick_item(item_instance: InventoryItemInstance):
 		inventory,
 		picked_item_scene
 	)
+	picked_item_instance.item_icon.cell_size = slot_size
 	picked_item_instance_changed.emit(picked_item_instance)
 
 #region Private Methods
 
 func _ready():
+	_update_slot_size()
 	grid_slots.selected_slot_changed.connect(_on_selected_slot_changed)
 	grid_slots.slot_clicked.connect(_on_slot_clicked)
 	grid_slots.slot_right_clicked.connect(_on_slot_right_clicked)
@@ -99,6 +107,12 @@ func _ready():
 
 	if Engine.is_editor_hint():
 		_setup_inspector_item_popup_menu()
+
+func _update_slot_size():
+	grid_slots.slot_size = slot_size
+	selected_grid_slot_indicator.size = slot_size
+	selected_item_outliner.cell_size = slot_size
+
 
 func _gui_input(_event):
 	grid_slots.grab_focus()
@@ -141,6 +155,7 @@ func _pick_selected_item():
 	inventory.remove_item_instance(picked_item_instance.item_instance)
 	selected_item_instance = null
 	picked_item_instance_changed.emit(picked_item_instance)
+	picked_item_instance.item_icon.cell_size = slot_size
 
 
 func _on_slot_clicked(_pos: Vector2i):

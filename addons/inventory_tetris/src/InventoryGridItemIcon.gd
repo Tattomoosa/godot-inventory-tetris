@@ -14,7 +14,17 @@ extends Control
 			item_instance.changed.connect(_on_item_changed)
 		_on_item_changed()
 
-@export var cell_size := Vector2i(30,30)
+@export var cell_size := Vector2i(30,30):
+	set(value):
+		cell_size = value
+		_on_item_changed()
+
+@export_group("Texture Tint")
+@export var texture_modulate : Color = Color.WHITE:
+	set(value):
+		texture_modulate = value
+		if is_node_ready():
+			_update_texture()
 
 @export_group("Background", "background_")
 @export var background_use_item_color := true:
@@ -150,10 +160,12 @@ func _update_outline() -> void:
 		return
 	shape_outline.visible = outline_show
 	shape_outline.shape = item_instance.shape
+	shape_outline.cell_size = cell_size
 	if outline_use_item_color:
 		shape_outline.color = item_instance.slot_color
 	else:
 		shape_outline.color = outline_color
+
 
 func _update_texture() -> void:
 	var item := item_instance.item
@@ -166,3 +178,4 @@ func _update_texture() -> void:
 	texture_rect.size = item_rect.size
 	texture_rect.position = item_rect.position
 	texture_rect.rotation_degrees = item_instance.get_rotation_degrees()
+	texture_rect.modulate = texture_modulate

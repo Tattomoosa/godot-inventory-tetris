@@ -2,7 +2,12 @@
 class_name InventoryGridSlotUi
 extends GridContainer
 
-@export var slot_size := Vector2(30.0, 30.0)
+@export var slot_size := Vector2(30.0, 30.0):
+	set(value):
+		slot_size = value
+		if is_node_ready():
+			_populate()
+
 @export var grid_size := Vector2i(10, 10):
 	set(value):
 		grid_size = value
@@ -14,6 +19,7 @@ extends GridContainer
 @export var has_slot_focused := false
 
 signal selected_slot_changed
+signal slot_size_changed
 signal slot_clicked(Vector2i)
 signal slot_right_clicked(Vector2i)
 
