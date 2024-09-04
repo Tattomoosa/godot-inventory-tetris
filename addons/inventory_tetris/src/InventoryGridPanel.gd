@@ -72,7 +72,6 @@ var lock_selected_item_instance := false
 
 #region Public Methods
 
-
 func set_active():
 	if !Engine.is_editor_hint():
 		grid_slots.grab_focus()
@@ -155,7 +154,8 @@ func _pick_selected_item():
 	inventory.remove_item_instance(picked_item_instance.item_instance)
 	selected_item_instance = null
 	picked_item_instance_changed.emit(picked_item_instance)
-	picked_item_instance.item_icon.cell_size = slot_size
+	if picked_item_instance:
+		picked_item_instance.item_icon.cell_size = slot_size
 
 
 func _on_slot_clicked(_pos: Vector2i):
