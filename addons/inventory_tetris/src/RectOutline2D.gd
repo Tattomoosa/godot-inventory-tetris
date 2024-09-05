@@ -12,6 +12,6 @@ extends Line2D
 			Vector2i(0, 0),
 		]
 
-func _validate_property(property: Dictionary):
+func _validate_property(property: Dictionary) -> void:
 	if property.name == "points":
 		property.usage = PROPERTY_USAGE_NO_EDITOR
