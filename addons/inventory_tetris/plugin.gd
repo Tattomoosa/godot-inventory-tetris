@@ -1,9 +1,9 @@
 @tool
 extends EditorPlugin
 
-var item_inspector_plugin := preload("res://addons/inventory_tetris/src/inspector_plugins/ItemInspector.gd").new()
-var item_instance_inspector_plugin := preload("res://addons/inventory_tetris/src/inspector_plugins/InventoryItemInstanceInspector.gd").new()
-var inventory_inspector_plugin := preload("res://addons/inventory_tetris/src/inspector_plugins/InventoryInspector.gd").new()
+var item_inspector_plugin := preload("./src/inspector_plugins/ItemInspector.gd").new()
+var item_instance_inspector_plugin := preload("./src/inspector_plugins/InventoryItemInstanceInspector.gd").new()
+var inventory_inspector_plugin := preload("./src/inspector_plugins/InventoryInspector.gd").new()
 
 func _enter_tree():
 	# Initialization of the plugin goes here.

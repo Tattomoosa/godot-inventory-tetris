@@ -4,11 +4,18 @@ extends Control
 
 signal rotated
 
-var item_instance: InventoryItemInstance
+## picked from item_instance
+var item_instance: InventoryItemInstance:
+	set(value):
+		item_instance = value
+		if item_icon:
+			item_icon.item_instance = value
+			item_icon.position = Vector2(-offset * cell_size) + icon_offset
+
 ## offset from selected grid slot
 var offset: Vector2i
-## picked from item_instance
-# var from_item_instance: InventoryItemInstance
+var icon_offset: Vector2
+var cell_size: Vector2i
 ## picked from inventory
 var from_inventory: Inventory
 var from_slot : Vector2i
@@ -29,13 +36,17 @@ var shape: Array[Vector2i]:
 
 static func create(
  	item_instance_: InventoryItemInstance,
+	slot_size_: Vector2i,
  	offset_: Vector2i,
  	from_inventory_: Inventory,
 	scene: PackedScene,
-	over_inventory_: Inventory = null
+	icon_offset_: Vector2i = Vector2i.ZERO,
+	over_inventory_: Inventory = null,
 ) -> InventoryGridPickedItem:
 	var p : InventoryGridPickedItem = scene.instantiate()
 	p.item_instance = item_instance_
+	p.cell_size = slot_size_
+	p.icon_offset = icon_offset_
 	p.offset = offset_
 	p.from_slot = item_instance_.position
 	p.from_inventory = from_inventory_
@@ -70,7 +81,9 @@ func place(slot: Vector2i) -> bool:
 func _process(_delta: float) -> void:
 	if Engine.is_editor_hint():
 		return
-	if Input.is_action_just_pressed("rotate_item_clockwise"):
-		rotate_clockwise()
-	if Input.is_action_just_pressed("rotate_item_counterclockwise"):
-		rotate_counterclockwise()
+	if InputMap.has_action("rotate_item_clockwise"):
+		if Input.is_action_just_pressed("rotate_item_clockwise"):
+			rotate_clockwise()
+	if InputMap.has_action("rotate_item_counterclockwise"):
+		if Input.is_action_just_pressed("rotate_item_counterclockwise"):
+			rotate_counterclockwise()

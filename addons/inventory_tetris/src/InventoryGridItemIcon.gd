@@ -84,8 +84,9 @@ func _on_item_changed() -> void:
 		return
 	if !item_instance:
 		_clear()
-		return
-	label.text = item_instance.item_name
+		label.text = "NONE"
+	else:
+		label.text = item_instance.item_name
 	_update_shape()
 	_update_badges()
 
@@ -136,14 +137,12 @@ func _update_badges() -> void:
 
 
 func _update_background() -> void:
-	var color := item_instance.slot_color if background_use_item_color else background_color
+	# var color := item_instance.slot_color if background_use_item_color else background_color
+	var color := background_color
+	if item_instance and background_use_item_color:
+		# TODO ItemData should handle slot color, maybe?
+		color = item_instance.slot_color
 	color.a = background_opacity if background_opacity < color.a else color.a
-
-	# var color := Color(
-	# 	item_instance.slot_color.r,
-	# 	item_instance.slot_color.g,
-	# 	item_instance.slot_color.b,
-	# 	opacity)
 	for child in shape_preview.get_children():
 		child.queue_free()
 	for pos in item_instance.shape:
@@ -156,18 +155,19 @@ func _update_background() -> void:
 
 func _update_outline() -> void:
 	shape_outline.width = outline_width
-	if !item_instance:
-		return
+	var shape := item_instance.shape if item_instance else [Vector2i.ZERO]
 	shape_outline.visible = outline_show
 	shape_outline.shape = item_instance.shape
 	shape_outline.cell_size = cell_size
-	if outline_use_item_color:
+	if outline_use_item_color and item_instance:
 		shape_outline.color = item_instance.slot_color
 	else:
 		shape_outline.color = outline_color
 
 
 func _update_texture() -> void:
+	if !item_instance or !item_instance.item:
+		return
 	var item := item_instance.item
 	var item_rect := item.rect
 	item_rect.size += Vector2i.ONE

@@ -1,0 +1,123 @@
+[gd_scene load_steps=18 format=3 uid="uid://d1ggfaxai2l8k"]
+
+[ext_resource type="Script" path="res://addons/inventory_tetris/src/InventoryGridPanel.gd" id="1_blu6b"]
+[ext_resource type="Script" path="res://addons/inventory_tetris/src/InventoryItemInstance.gd" id="2_cmwlu"]
+[ext_resource type="Script" path="res://addons/inventory_tetris/src/ItemData.gd" id="3_3ghbh"]
+[ext_resource type="Script" path="res://addons/inventory_tetris/src/Inventory.gd" id="3_jym2a"]
+[ext_resource type="PackedScene" uid="uid://bgg16aq1txn1o" path="res://addons/inventory_tetris/src/scenes/inventory_grid_item_icon.tscn" id="4_0quso"]
+[ext_resource type="PackedScene" uid="uid://i5kjpoa236pu" path="res://addons/inventory_tetris/src/scenes/inventory_grid_picked_item.tscn" id="4_lrkic"]
+[ext_resource type="Resource" uid="uid://x787ktes2x5r" path="res://examples/common/items/dummy_item.tres" id="4_ors4k"]
+[ext_resource type="Script" path="res://addons/inventory_tetris/src/InventoryGridSlotUI.gd" id="5_eqjhq"]
+[ext_resource type="Script" path="res://addons/inventory_tetris/src/GridShapeOutline.gd" id="6_decla"]
+[ext_resource type="PackedScene" uid="uid://d4ncq5f5uxwxh" path="res://addons/inventory_tetris/src/scenes/inventory_grid_slot.tscn" id="7_ad5cg"]
+[ext_resource type="Script" path="res://addons/inventory_tetris/src/RectOutline2D.gd" id="7_kwfib"]
+
+[sub_resource type="Resource" id="Resource_jlsvo"]
+resource_name = "Item (Instance)"
+script = ExtResource("2_cmwlu")
+item = ExtResource("4_ors4k")
+position = Vector2i(2, 1)
+rotation = 0
+data = Array[ExtResource("3_3ghbh")]([])
+
+[sub_resource type="Resource" id="Resource_ved21"]
+resource_name = "Item (Instance)"
+script = ExtResource("2_cmwlu")
+item = ExtResource("4_ors4k")
+position = Vector2i(5, 1)
+rotation = 0
+data = Array[ExtResource("3_3ghbh")]([])
+
+[sub_resource type="Resource" id="Resource_6o6cq"]
+resource_name = "Item (Instance)"
+script = ExtResource("2_cmwlu")
+item = ExtResource("4_ors4k")
+position = Vector2i(8, 1)
+rotation = 0
+data = Array[ExtResource("3_3ghbh")]([])
+
+[sub_resource type="Resource" id="Resource_433qj"]
+resource_name = "Item (Instance)"
+script = ExtResource("2_cmwlu")
+item = ExtResource("4_ors4k")
+position = Vector2i(7, 5)
+rotation = 0
+data = Array[ExtResource("3_3ghbh")]([])
+
+[sub_resource type="Resource" id="Resource_8vtk2"]
+resource_name = "Item (Instance)"
+script = ExtResource("2_cmwlu")
+item = ExtResource("4_ors4k")
+position = Vector2i(3, 6)
+rotation = 0
+data = Array[ExtResource("3_3ghbh")]([])
+
+[sub_resource type="Resource" id="Resource_tyoty"]
+script = ExtResource("3_jym2a")
+_inventory_control = false
+grid_size = Vector2i(10, 10)
+item_instances = Array[ExtResource("2_cmwlu")]([SubResource("Resource_jlsvo"), SubResource("Resource_ved21"), SubResource("Resource_6o6cq"), SubResource("Resource_433qj"), SubResource("Resource_8vtk2")])
+
+[node name="Demo" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="InventoryGridPanel" type="PanelContainer" parent="." node_paths=PackedStringArray("item_icons", "grid_slots", "selected_item_outliner", "selected_grid_slot_indicator", "inspector_item_popup_menu", "item_popup_menu")]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+script = ExtResource("1_blu6b")
+inventory = SubResource("Resource_tyoty")
+item_icon_scene = ExtResource("4_0quso")
+item_icons = NodePath("FloatingUI/ItemIcons")
+grid_slots = NodePath("InventoryGridSlotUi")
+selected_item_outliner = NodePath("FloatingUI/SelectedItemOutliner")
+selected_grid_slot_indicator = NodePath("FloatingUI/SelectedGridSlotIndicator")
+inspector_item_popup_menu = NodePath("FloatingUI/PopupMenu")
+item_popup_menu = NodePath("FloatingUI/PopupMenu2")
+picked_item_scene = ExtResource("4_lrkic")
+
+[node name="InventoryGridSlotUi" type="GridContainer" parent="InventoryGridPanel"]
+layout_mode = 2
+mouse_filter = 0
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 10
+script = ExtResource("5_eqjhq")
+slot_scene = ExtResource("7_ad5cg")
+
+[node name="FloatingUI" type="Control" parent="InventoryGridPanel"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="ItemIcons" type="Control" parent="InventoryGridPanel/FloatingUI"]
+layout_mode = 2
+anchors_preset = 0
+offset_right = 336.0
+offset_bottom = 336.0
+mouse_filter = 2
+
+[node name="SelectedItemOutliner" type="Control" parent="InventoryGridPanel/FloatingUI"]
+layout_mode = 2
+anchors_preset = 0
+offset_right = 336.0
+offset_bottom = 336.0
+mouse_filter = 2
+script = ExtResource("6_decla")
+
+[node name="SelectedGridSlotIndicator" type="Line2D" parent="InventoryGridPanel/FloatingUI"]
+visible = false
+points = PackedVector2Array(30, 0, 30, 30, 0, 30, 0, 0)
+closed = true
+width = 2.0
+script = ExtResource("7_kwfib")
+
+[node name="PopupMenu" type="PopupMenu" parent="InventoryGridPanel/FloatingUI"]
+
+[node name="PopupMenu2" type="PopupMenu" parent="InventoryGridPanel/FloatingUI"]

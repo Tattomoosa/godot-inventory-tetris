@@ -11,6 +11,9 @@ extends Line2D
 			Vector2i(0, size.y),
 			Vector2i(0, 0),
 		]
+	
+func _init():
+	closed = true
 
 func _validate_property(property: Dictionary) -> void:
 	if property.name == "points":

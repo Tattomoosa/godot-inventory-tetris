@@ -1,7 +1,7 @@
 @tool
 extends EditorInspectorPlugin
 
-const INVENTORY_GRID_PANEL := preload("res://addons/inventory_tetris/src/inventory_grid_panel.tscn")
+const INVENTORY_GRID_PANEL := preload("../scenes/inventory_grid_panel.tscn")
 
 func _can_handle(object):
 	return object is Inventory

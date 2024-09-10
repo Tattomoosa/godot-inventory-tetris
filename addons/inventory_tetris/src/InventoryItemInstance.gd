@@ -10,7 +10,7 @@ extends Resource
 			if item.changed.is_connected(_on_item_changed):
 				item.changed.disconnect(_on_item_changed)
 		item = value
-		resource_name = item.item_name
+		resource_name = item.item_name + " (Instance)"
 		if item:
 			item.changed.connect(_on_item_changed)
 		_load_item_data()
@@ -145,3 +145,16 @@ func get_data(data_type: Variant) -> ItemData:
 		if is_instance_of(d, data_type):
 			return d
 	return null
+
+class MenuItem extends RefCounted:
+	var text : String
+	var callable : Callable
+
+	static func create(
+		text_: String,
+		callable_: Callable
+	) -> MenuItem:
+		var m := MenuItem.new()
+		m.text = text_
+		m.callable = callable_
+		return m

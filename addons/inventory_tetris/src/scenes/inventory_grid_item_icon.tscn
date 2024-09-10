@@ -1,0 +1,83 @@
+[gd_scene load_steps=8 format=3 uid="uid://bgg16aq1txn1o"]
+
+[ext_resource type="Script" path="res://addons/inventory_tetris/src/InventoryGridItemIcon.gd" id="1_2iaoi"]
+[ext_resource type="Script" path="res://addons/inventory_tetris/src/ItemData.gd" id="2_hufjk"]
+[ext_resource type="Script" path="res://addons/inventory_tetris/src/GridShapeOutline.gd" id="3_368vb"]
+[ext_resource type="Script" path="res://addons/inventory_tetris/src/InventoryItemInstance.gd" id="3_r4h42"]
+[ext_resource type="Script" path="res://addons/inventory_tetris/src/Item.gd" id="5_goosd"]
+
+[sub_resource type="Resource" id="Resource_20qe6"]
+script = ExtResource("5_goosd")
+item_name = "Item"
+description = "Some sort of thing..."
+shape = Array[Vector2i]([Vector2i(0, 0)])
+slot_color = Color(0.745098, 0.745098, 0.745098, 1)
+data = Array[ExtResource("2_hufjk")]([])
+
+[sub_resource type="Resource" id="Resource_wrepk"]
+resource_name = "Item (Instance)"
+script = ExtResource("3_r4h42")
+item = SubResource("Resource_20qe6")
+position = Vector2i(0, 0)
+rotation = 0
+data = Array[ExtResource("2_hufjk")]([])
+
+[node name="InventoryGridItemIcon" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+script = ExtResource("1_2iaoi")
+item_instance = SubResource("Resource_wrepk")
+background_use_item_color = false
+background_opacity = 1.0
+background_color = Color(0.0470588, 0.0470588, 0.0470588, 0.498039)
+outline_show = true
+outline_use_item_color = false
+outline_width = 3.0
+outline_color = Color(0.2757, 0.2757, 0.2757, 1)
+
+[node name="Shape" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 10
+text = "Item"
+
+[node name="TextureRect" type="TextureRect" parent="."]
+texture_filter = 1
+layout_mode = 0
+offset_right = 30.0
+offset_bottom = 30.0
+pivot_offset = Vector2(15, 15)
+mouse_filter = 2
+
+[node name="GridShapeOutline" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+script = ExtResource("3_368vb")
+shape = Array[Vector2i]([Vector2i(0, 0)])
+width = 3
+color = Color(0.2757, 0.2757, 0.2757, 1)
+
+[node name="BadgeContainer" type="GridContainer" parent="."]
+layout_direction = 2
+layout_mode = 1
+anchors_preset = -1
+offset_right = 12.0
+offset_bottom = 12.0
+mouse_filter = 2
+theme_override_constants/h_separation = 2
+theme_override_constants/v_separation = 2
+columns = 2
+metadata/_edit_group_ = true

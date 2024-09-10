@@ -79,9 +79,11 @@ func set_active():
 func pick_item(item_instance: InventoryItemInstance):
 	picked_item_instance = InventoryGridPickedItem.create(
 		item_instance,
+		slot_size,
 		Vector2i.ZERO,
 		inventory,
-		picked_item_scene
+		picked_item_scene,
+		picked_item_icon_offset,
 	)
 	picked_item_instance.item_icon.cell_size = slot_size
 	picked_item_instance_changed.emit(picked_item_instance)
@@ -111,7 +113,8 @@ func _update_slot_size():
 	grid_slots.slot_size = slot_size
 	selected_grid_slot_indicator.size = slot_size
 	selected_item_outliner.cell_size = slot_size
-
+	if picked_item_instance:
+		picked_item_instance.cell_size = slot_size
 
 func _gui_input(_event):
 	grid_slots.grab_focus()
@@ -119,9 +122,13 @@ func _gui_input(_event):
 # picked item
 
 func _on_picked_item_changed():
-	if picked_item_instance:
-		picked_item_instance.item_icon.item_instance = picked_item_instance.item_instance
-		picked_item_instance.item_icon.position = -Vector2(picked_item_instance.offset) * grid_slots.slot_size + Vector2(picked_item_icon_offset)
+	# TODO why is this logic here? should be in 
+	# if picked_item_instance:
+	# 	if picked_item_instance.item_icon:
+	# 		picked_item_instance.item_icon.item_instance = picked_item_instance.item_instance
+	# 		picked_item_instance.item_icon.position = -Vector2(picked_item_instance.offset) * grid_slots.slot_size + Vector2(picked_item_icon_offset)
+	# 	else:
+	# 		picked_item_instance.item_icon = null
 	_on_selected_slot_changed()
 
 func _placed_picked_item():
@@ -147,15 +154,17 @@ func _pick_selected_item():
 	var slot := selected_slot
 	picked_item_instance = InventoryGridPickedItem.create(
 		selected_item_instance,
+		slot_size,
 		inventory.get_item_local_position_at(slot),
 		inventory,
-		picked_item_scene
+		picked_item_scene,
+		picked_item_icon_offset
 	)
 	inventory.remove_item_instance(picked_item_instance.item_instance)
 	selected_item_instance = null
 	picked_item_instance_changed.emit(picked_item_instance)
-	if picked_item_instance:
-		picked_item_instance.item_icon.cell_size = slot_size
+	# if picked_item_instance:
+	# 	picked_item_instance.item_icon.cell_size = slot_size
 
 
 func _on_slot_clicked(_pos: Vector2i):

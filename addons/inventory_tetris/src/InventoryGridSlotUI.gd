@@ -29,6 +29,7 @@ func _init():
 	# TODO this doesn't work...
 	add_theme_constant_override("theme_override_constants/h_separation", 0)
 	add_theme_constant_override("theme_override_constants/v_separation", 0)
+	mouse_filter = MOUSE_FILTER_STOP
 	tree_entered.connect(_populate)
 
 func _ready():

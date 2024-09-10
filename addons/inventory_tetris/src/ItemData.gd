@@ -3,11 +3,11 @@ class_name ItemData
 extends Resource
 
 var item_instance : InventoryItemInstance = null
-var context_menu: Array[MenuItem]:
+var context_menu: Array[InventoryItemInstance.MenuItem]:
 	get:
 		return _get_context_menu()
 
-func _get_context_menu() -> Array[MenuItem]:
+func _get_context_menu() -> Array[InventoryItemInstance.MenuItem]:
 	return []
 
 func on_changed_inventory():
