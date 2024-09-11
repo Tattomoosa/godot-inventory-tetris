@@ -18,22 +18,43 @@ signal cells_changed
 func has(position: Vector2i) -> bool:
 	return _cells.has(position)
 
-func add(position: Vector2i):
-	print("add ", position)
-	_cells[position] = _store_cell_value()
+func insert(position: Vector2i, value : Variant = true):
+	if _cells.has(position):
+		push_warning("insert in occupied position: ", position, " - either erase first or use assign")
+		return
+	_cells[position] = value
+	cells_changed.emit()
+
+func assign(position: Vector2i, value : Variant = true):
+	_cells[position] = value
 	cells_changed.emit()
 
 func erase(position: Vector2i) -> bool:
 	if _cells.erase(position):
-		print("erase ", position)
 		cells_changed.emit()
 		return true
 	return false
 
 func toggle(position: Vector2i):
 	if !erase(position):
-		print("erase failed, adding")
-		add(position)
+		insert(position)
 
 func _store_cell_value():
 	return true
+
+func _translate_all(by: Vector2i):
+	var new_cells := {}
+	for c in _cells:
+		new_cells[c + by] = _cells[c]
+	_cells = new_cells
+	# var translated_cells = {}
+	# var positions : Array[Vector2i] = _cells.keys()
+	# var values : Array[Vector2i] = _cells.values()
+	# var translated_positions : Array[Vector2i] = []
+	# for i in positions.size():
+	# 	var pos := positions[i]
+	# 	var translated_pos := pos + by
+	# 	_cells.erase(pos)
+	# 	translated_positions.push_back(translated_pos)
+	# for i in translated_positions.size():
+

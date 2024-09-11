@@ -12,5 +12,5 @@ func _map_signals():
 	map_signal_to_callable("pressed", _on_cell_pressed)
 
 func _on_cell_pressed(x: int, y: int):
-	print("cell pressed: ", x, ", ", y)
+	# print("cell pressed: ", x, ", ", y)
 	cell_pressed.emit(x, y)

@@ -30,7 +30,6 @@ func _get_prototype() -> Control:
 	return p
 
 func _set_grid_size():
-	print("set grid size")
 	grid_size = grid_shape.rect
 
 func _on_cell_pressed(x: int, y: int):
@@ -38,7 +37,7 @@ func _on_cell_pressed(x: int, y: int):
 	var slot := _get_slot(x, y) as Button
 	var position := Vector2i(x, y)
 	if slot.button_pressed:
-		grid_shape.add(position)
+		grid_shape.insert(position)
 	else:
 		grid_shape.erase(position)
 

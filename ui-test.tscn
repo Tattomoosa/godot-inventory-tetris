@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://g7qj6jufce5l"]
+[gd_scene load_steps=2 format=3 uid="uid://ds1p7qbhaykta"]
 
 [ext_resource type="Script" path="res://addons/tattomoosa.inventory_tetris/src/grid_shape/GridShapeMatrixEditor.gd" id="1_uwutr"]
 
@@ -25,9 +25,14 @@ layout_mode = 2
 [node name="MarginContainer" type="MarginContainer" parent="CenterContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="GridShapeMatrixEditor" type="GridContainer" parent="CenterContainer/HBoxContainer/MarginContainer"]
+[node name="GridShapeMatrixEditor" type="GridContainer" parent="CenterContainer/HBoxContainer/MarginContainer" node_paths=PackedStringArray("prototype")]
 layout_mode = 2
-columns = 4
 script = ExtResource("1_uwutr")
-shape = Array[Vector2i]([Vector2i(3, 0), Vector2i(0, 0), Vector2i(1, 0), Vector2i(0, 2)])
-grid_size = Vector2i(4, 4)
+grid_size = Vector2i(1, 1)
+prototype = NodePath("Button")
+
+[node name="Button" type="Button" parent="CenterContainer/HBoxContainer/MarginContainer/GridShapeMatrixEditor"]
+visible = false
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+toggle_mode = true
