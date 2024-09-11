@@ -121,11 +121,11 @@ func _on_cell_mouse_entered(x: int, y: int):
 func _on_cell_mouse_exited(x: int, y: int):
 	cell_mouse_entered.emit(x, y)
 
-func _notification(what):
-	match what:
-		NOTIFICATION_PRE_SORT_CHILDREN:
-			print("pre sort")
-			# remove_child(prototype)
-		NOTIFICATION_SORT_CHILDREN:
-			print("sort")
+# func _notification(what):
+# 	match what:
+# 		NOTIFICATION_PRE_SORT_CHILDREN:
+# 			print("pre sort")
+# 			# remove_child(prototype)
+# 		NOTIFICATION_SORT_CHILDREN:
+# 			print("sort")
 			
