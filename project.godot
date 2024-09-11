@@ -15,7 +15,7 @@ config/features=PackedStringArray("4.3", "GL Compatibility")
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/inventory_tetris/plugin.cfg")
+enabled=PackedStringArray("res://addons/explore-editor-theme/plugin.cfg", "res://addons/tattomoosa.inventory_tetris/plugin.cfg")
 
 [rendering]
 

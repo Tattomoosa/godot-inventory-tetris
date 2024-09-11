@@ -1,0 +1,33 @@
+[gd_scene load_steps=2 format=3 uid="uid://g7qj6jufce5l"]
+
+[ext_resource type="Script" path="res://addons/tattomoosa.inventory_tetris/src/grid_shape/GridShapeMatrixEditor.gd" id="1_uwutr"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_lock_ = true
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="GridShapeMatrixEditor" type="GridContainer" parent="CenterContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+columns = 4
+script = ExtResource("1_uwutr")
+shape = Array[Vector2i]([Vector2i(3, 0), Vector2i(0, 0), Vector2i(1, 0), Vector2i(0, 2)])
+grid_size = Vector2i(4, 4)
