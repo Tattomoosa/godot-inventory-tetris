@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://ds1p7qbhaykta"]
+[gd_scene load_steps=3 format=3 uid="uid://ds1p7qbhaykta"]
 
 [ext_resource type="Script" path="res://addons/tattomoosa.inventory_tetris/src/grid_shape/GridShapeMatrixEditor.gd" id="1_uwutr"]
+[ext_resource type="Resource" uid="uid://bwwdc726p0jir" path="res://test/gridshape.tres" id="2_3qjlh"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -27,8 +28,10 @@ layout_mode = 2
 
 [node name="GridShapeMatrixEditor" type="GridContainer" parent="CenterContainer/HBoxContainer/MarginContainer" node_paths=PackedStringArray("prototype")]
 layout_mode = 2
+columns = 6
 script = ExtResource("1_uwutr")
-grid_size = Vector2i(1, 1)
+grid_shape = ExtResource("2_3qjlh")
+grid_size = Vector2i(6, 6)
 prototype = NodePath("Button")
 
 [node name="Button" type="Button" parent="CenterContainer/HBoxContainer/MarginContainer/GridShapeMatrixEditor"]
